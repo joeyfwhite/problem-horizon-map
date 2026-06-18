@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Problem Horizon Map</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --core: #E8B830;
+  --core-dim: rgba(232,184,48,0.12);
+  --comp: #2ECC8F;
+  --comp-dim: rgba(46,204,143,0.12);
+  --cpx: #4B8FE2;
+  --cpx-dim: rgba(75,143,226,0.12);
+  --wkd: #8B5CF6;
+  --wkd-dim: rgba(139,92,246,0.12);
+  --bg: #07080F;
+  --surface: #0D0F1E;
+  --surface2: #141628;
+  --border: rgba(255,255,255,0.07);
+  --text: #DDE0F0;
+  --muted: #7878A0;
+  --dim: #3A3A5A;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;line-height:1.7;overflow-x:hidden;}
+h1,h2,h3{font-family:'Playfair Display',Georgia,serif;}
+
+/* STARS */
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.star{position:absolute;width:1.5px;height:1.5px;background:#fff;border-radius:50%;animation:tw var(--d) var(--delay) infinite;}
+@keyframes tw{0%,100%{opacity:0;}50%{opacity:var(--op);}}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px 80px;position:relative;z-index:1;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(139,92,246,0.07) 0%,transparent 65%);}
+.hero-eyebrow{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;text-align:center;}
+.hero h1{font-size:clamp(2.4rem,6vw,4.5rem);line-height:1.08;text-align:center;margin-bottom:16px;background:linear-gradient(160deg,#fff 30%,rgba(255,255,255,.55));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(.95rem,2.2vw,1.2rem);color:var(--muted);text-align:center;margin-bottom:52px;}
+.map-wrap{position:relative;width:min(440px,88vw);height:min(440px,88vw);}
+.map-wrap svg{width:100%;height:100%;filter:drop-shadow(0 0 48px rgba(139,92,246,.18));}
+/* Tooltip */
+#map-tip{position:absolute;pointer-events:none;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:.8rem;max-width:200px;opacity:0;transition:opacity .2s;z-index:10;line-height:1.5;}
+#map-tip strong{display:block;margin-bottom:4px;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;}
+.scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--dim);font-size:10px;letter-spacing:.18em;text-transform:uppercase;}
+.scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,transparent,var(--dim));animation:sp 2s infinite;}
+@keyframes sp{0%{transform:scaleY(0);transform-origin:top;}49%{transform:scaleY(1);transform-origin:top;}50%{transform:scaleY(1);transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+/* SIDE NAV */
+.sidenav{position:fixed;right:28px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:14px;}
+.snd{width:7px;height:7px;border-radius:50%;border:1.5px solid var(--dim);cursor:pointer;transition:all .25s;position:relative;}
+.snd::after{content:attr(data-l);position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:10px;white-space:nowrap;color:var(--muted);opacity:0;transition:opacity .2s;pointer-events:none;background:var(--surface);padding:2px 8px;border-radius:4px;}
+.snd:hover::after{opacity:1;}
+.snd.active{transform:scale(1.4);}
+.snd[data-i="0"].active,.snd[data-i="1"].active{background:var(--wkd);border-color:var(--wkd);}
+.snd[data-i="2"].active{background:var(--cpx);border-color:var(--cpx);}
+.snd[data-i="3"].active{background:var(--comp);border-color:var(--comp);}
+.snd[data-i="4"].active{background:var(--core);border-color:var(--core);}
+.snd[data-i="5"].active{background:var(--wkd);border-color:var(--wkd);}
+.snd[data-i="6"].active{background:var(--text);border-color:var(--text);}
+
+/* SECTIONS */
+.sec{max-width:780px;margin:0 auto;padding:96px 28px;position:relative;z-index:1;}
+.sec-alt{background:var(--surface);padding:96px 28px;position:relative;z-index:1;}
+.sec-alt .sec-inner{max-width:780px;margin:0 auto;}
+.sec-wld{background:linear-gradient(135deg,#0A0815 0%,#070810 100%);padding:96px 28px;position:relative;z-index:1;}
+.sec-wld .sec-inner{max-width:780px;margin:0 auto;}
+.eyebrow{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:14px;}
+.eyebrow.e-core{color:var(--core);}
+.eyebrow.e-comp{color:var(--comp);}
+.eyebrow.e-cpx{color:var(--cpx);}
+.eyebrow.e-wkd{color:var(--wkd);}
+h2{font-size:clamp(1.7rem,3.8vw,2.6rem);line-height:1.18;margin-bottom:28px;color:#fff;}
+h3{font-size:1.18rem;margin-bottom:12px;color:#fff;}
+p{color:var(--text);margin-bottom:18px;font-size:1rem;}
+strong{color:#fff;font-weight:600;}
+hr{border:none;border-top:1px solid var(--border);margin:36px 0;}
+blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;background:rgba(232,184,48,.05);border-radius:0 8px 8px 0;font-style:italic;color:var(--muted);font-size:.93rem;}
+
+/* FADE IN */
+.fi{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease;}
+.fi.vis{opacity:1;transform:translateY(0);}
+.fi-d1{transition-delay:.1s;}.fi-d2{transition-delay:.2s;}.fi-d3{transition-delay:.3s;}
+
+/* RING CARDS */
+.ring-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:36px 0;}
+.rcard{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:22px;position:relative;overflow:hidden;transition:all .25s;cursor:default;}
+.rcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;}
+.rcard.rc{--c:var(--core);} .rcard.rp{--c:var(--comp);} .rcard.rx{--c:var(--cpx);} .rcard.rw{--c:var(--wkd);}
+.rcard::before{background:var(--c);}
+.rcard:hover{border-color:rgba(255,255,255,.13);box-shadow:0 6px 28px rgba(0,0,0,.4);}
+.rcard-tag{font-size:9px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--c);margin-bottom:7px;}
+.rcard h3{font-size:1rem;margin-bottom:8px;}
+.rcard p{font-size:.85rem;color:var(--muted);margin:0;}
+
+/* SCQA */
+.scqa{display:flex;flex-direction:column;gap:13px;margin:36px 0;}
+.sq{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:22px;transition:all .25s;}
+.sq:hover{background:var(--surface2);border-color:rgba(255,255,255,.13);}
+.sq-num{font-size:10px;font-weight:600;letter-spacing:.15em;color:var(--dim);text-transform:uppercase;margin-bottom:5px;}
+.sq h3{font-size:1.05rem;margin-bottom:8px;}
+.sq-ex{background:rgba(255,255,255,.03);border-left:2px solid var(--border);padding:12px 16px;margin-top:12px;border-radius:0 7px 7px 0;font-size:.87rem;color:var(--muted);font-style:italic;}
+
+/* LOGIC TREE */
+.tree{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:28px;margin:36px 0;overflow-x:auto;}
+.tree-node{margin:0;}
+.tl{display:flex;align-items:center;gap:9px;padding:5px 8px;border-radius:6px;cursor:pointer;user-select:none;transition:background .2s;}
+.tl:hover{background:rgba(255,255,255,.04);}
+.tc{margin-left:24px;border-left:1px solid var(--border);padding-left:16px;overflow:hidden;max-height:0;opacity:0;transition:max-height .45s ease,opacity .3s ease;}
+.tc.open{max-height:600px;opacity:1;}
+.badge{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;white-space:nowrap;flex-shrink:0;}
+.bw{background:var(--wkd-dim);color:var(--wkd);border:1px solid rgba(139,92,246,.25);}
+.bx{background:var(--cpx-dim);color:var(--cpx);border:1px solid rgba(75,143,226,.25);}
+.bp{background:var(--comp-dim);color:var(--comp);border:1px solid rgba(46,204,143,.25);}
+.bc{background:var(--core-dim);color:var(--core);border:1px solid rgba(232,184,48,.25);}
+.tl-text{font-size:.84rem;color:var(--text);}
+.tl-arrow{font-size:10px;color:var(--dim);transition:transform .25s;flex-shrink:0;}
+.tl-arrow.open{transform:rotate(90deg);}
+.tl-leaf .tl-text{color:var(--muted);}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:16px;margin:36px 0;}
+.sc{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:24px 20px;position:relative;overflow:hidden;}
+.sc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;}
+.sc.sc-core::after{background:var(--core);} .sc.sc-comp::after{background:var(--comp);} .sc.sc-cpx::after{background:var(--cpx);} .sc.sc-wkd::after{background:var(--wkd);}
+.stat-n{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;line-height:1;margin-bottom:7px;}
+.sc-core .stat-n{color:var(--core);} .sc-comp .stat-n{color:var(--comp);} .sc-cpx .stat-n{color:var(--cpx);} .sc-wkd .stat-n{color:var(--wkd);}
+.stat-l{font-size:.82rem;color:var(--muted);line-height:1.4;}
+.stat-s{font-size:.7rem;color:var(--dim);margin-top:6px;font-style:italic;}
+
+/* INFRA */
+.infra{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:28px 0;}
+.ii{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:18px;display:flex;gap:12px;align-items:flex-start;transition:all .25s;}
+.ii:hover{border-color:rgba(255,255,255,.12);background:var(--surface);}
+.ii-icon{width:34px;height:34px;border-radius:7px;background:var(--core-dim);border:1px solid rgba(232,184,48,.18);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.ii h4{font-size:.87rem;font-weight:600;margin-bottom:3px;}
+.ii p{font-size:.79rem;color:var(--muted);margin:0;line-height:1.45;}
+
+/* STEPPER */
+.step-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:20px;}
+.stab{padding:7px 16px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;}
+.stab:hover{border-color:var(--core);color:var(--core);}
+.stab.active{background:var(--core);border-color:var(--core);color:#000;font-weight:600;}
+.step-body{display:none;background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:28px;animation:fi .3s ease;}
+.step-body.active{display:block;}
+@keyframes fi{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.fq{background:rgba(232,184,48,.07);border:1px solid rgba(232,184,48,.2);border-radius:8px;padding:14px 18px;margin:14px 0;font-style:italic;font-size:.93rem;}
+.check-list{list-style:none;margin:14px 0;}
+.check-list li{padding:6px 0 6px 24px;position:relative;font-size:.9rem;color:var(--muted);}
+.check-list li::before{content:'→';position:absolute;left:0;color:var(--core);}
+
+/* WORKED EXAMPLE */
+.we{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:28px;margin:36px 0;}
+.we-stage{display:none;}
+.we-stage.active{display:block;animation:fi .35s ease;}
+.we-stg-label{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:14px;}
+.we-box{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:16px 18px;font-size:.88rem;color:var(--muted);font-style:italic;line-height:1.7;margin-bottom:12px;}
+.we-box.bad{border-color:rgba(139,92,246,.3);background:rgba(139,92,246,.05);}
+.we-box.good{border-color:rgba(46,204,143,.3);background:rgba(46,204,143,.04);}
+.we-box.core{border-color:rgba(232,184,48,.3);background:rgba(232,184,48,.04);}
+.we-nav{display:flex;align-items:center;justify-content:space-between;margin-top:18px;}
+.we-prog{font-size:10px;color:var(--dim);letter-spacing:.1em;}
+.btn{padding:9px 20px;border-radius:8px;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;border:1px solid var(--border);background:transparent;color:var(--text);}
+.btn:hover{background:rgba(255,255,255,.05);}
+.btn.primary{background:var(--core);border-color:var(--core);color:#000;font-weight:600;}
+.btn.primary:hover{background:#f0c840;}
+.btn:disabled{opacity:.3;cursor:not-allowed;}
+
+/* WILDERNESS */
+.warn-box{border:1px solid rgba(139,92,246,.35);background:rgba(139,92,246,.06);border-radius:11px;padding:24px;margin:28px 0;}
+.warn-label{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--wkd);margin-bottom:8px;}
+.ptest{background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:28px;margin:36px 0;}
+.ptest-q{font-family:'Playfair Display',serif;font-style:italic;font-size:1.12rem;border-left:3px solid var(--wkd);padding-left:18px;margin:20px 0;line-height:1.5;}
+.ptest-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
+.pa{padding:14px;border-radius:8px;border:1px solid var(--border);cursor:pointer;font-size:.88rem;text-align:center;transition:all .2s;font-family:'Inter',sans-serif;background:transparent;color:var(--text);}
+.pa.yes:hover{background:rgba(46,204,143,.1);border-color:var(--comp);color:var(--comp);}
+.pa.no:hover{background:rgba(139,92,246,.1);border-color:var(--wkd);color:var(--wkd);}
+.ptest-result{margin-top:16px;padding:14px 18px;border-radius:8px;font-size:.88rem;display:none;animation:fi .3s ease;}
+.ptest-result.proceed{background:rgba(46,204,143,.09);border:1px solid rgba(46,204,143,.3);color:var(--comp);}
+.ptest-result.stop{background:rgba(139,92,246,.09);border:1px solid rgba(139,92,246,.3);color:var(--wkd);}
+
+/* CLOSE */
+.close-sec{padding:120px 28px;max-width:720px;margin:0 auto;text-align:center;position:relative;z-index:1;}
+.close-sec h2{font-size:clamp(1.9rem,4.5vw,3.2rem);margin-bottom:36px;}
+.close-sec p{font-size:1rem;color:var(--muted);max-width:580px;margin:0 auto 20px;}
+.close-cta{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.2rem,2.8vw,1.8rem);color:var(--core);margin:52px 0;line-height:1.45;}
+
+/* SOURCES */
+.sources{max-width:780px;margin:0 auto;padding:0 28px 80px;position:relative;z-index:1;}
+.src-toggle{background:none;border:none;color:var(--dim);font-size:.82rem;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:'Inter',sans-serif;letter-spacing:.05em;}
+.src-toggle:hover{color:var(--muted);}
+.src-list{display:none;margin-top:16px;border-top:1px solid var(--border);padding-top:16px;}
+.src-list.open{display:block;animation:fi .3s ease;}
+.src-list li{font-size:.77rem;color:var(--dim);margin-bottom:7px;list-style:none;padding-left:14px;position:relative;}
+.src-list li::before{content:'—';position:absolute;left:0;}
+
+/* RESPONSIVE */
+@media(max-width:600px){.ring-grid,.infra{grid-template-columns:1fr;}.ptest-btns{grid-template-columns:1fr;}.sidenav{display:none;}.stats-grid{grid-template-columns:1fr 1fr;}}
+
+/* SVG MAP ANIMATION */
+@keyframes pulse{0%,100%{r:60;}50%{r:64;}}
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+
+<!-- HERO -->
+<section class="hero" id="s0">
+  <div class="hero-bg"></div>
+  <p class="hero-eyebrow">A Framework for AI-Ready Thinking</p>
+  <h1>The Problem<br>Horizon Map</h1>
+  <p class="hero-sub">AI doesn't solve problems.<br>It solves the problem you give it.</p>
+
+  <div class="map-wrap">
+    <div id="map-tip"></div>
+    <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" id="horizon-svg">
+      <defs>
+        <radialGradient id="gWkd" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#2A1560"/>
+          <stop offset="100%" stop-color="#0E0820"/>
+        </radialGradient>
+        <radialGradient id="gCpx" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#0D2050"/>
+          <stop offset="100%" stop-color="#091535"/>
+        </radialGradient>
+        <radialGradient id="gComp" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#0A3028"/>
+          <stop offset="100%" stop-color="#071E18"/>
+        </radialGradient>
+        <radialGradient id="gCore" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#705200"/>
+          <stop offset="100%" stop-color="#3A2800"/>
+        </radialGradient>
+        <filter id="glow-wkd"><feGaussianBlur stdDeviation="6" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="glow-core"><feGaussianBlur stdDeviation="8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+
+      <!-- Wicked ring -->
+      <circle cx="250" cy="250" r="236" fill="url(#gWkd)" stroke="#8B5CF6" stroke-width="1.5" opacity=".9"
+        class="map-ring" data-zone="wicked"
+        data-tip="<strong style='color:#8B5CF6'>The Wilderness</strong>Wicked & Chaotic problems resist definition. Solutions generate new problems. Human judgment must establish the frame before AI can help."/>
+
+      <!-- Complex ring -->
+      <circle cx="250" cy="250" r="172" fill="url(#gCpx)" stroke="#4B8FE2" stroke-width="1.5"
+        class="map-ring" data-zone="complex"
+        data-tip="<strong style='color:#4B8FE2'>Outer Ring — Complex</strong>Multi-variable, adaptive problems. AI can work at sub-problem level, but the parent problem resists clean definition."/>
+
+      <!-- Complicated ring -->
+      <circle cx="250" cy="250" r="112" fill="url(#gComp)" stroke="#2ECC8F" stroke-width="1.5"
+        class="map-ring" data-zone="complicated"
+        data-tip="<strong style='color:#2ECC8F'>Inner Ring — Complicated</strong>Structured problems with multiple parts. Solvable with expertise and decomposition. AI assists powerfully here."/>
+
+      <!-- Core -->
+      <circle cx="250" cy="250" r="60" fill="url(#gCore)" stroke="#E8B830" stroke-width="2" filter="url(#glow-core)"
+        class="map-ring" data-zone="core"
+        data-tip="<strong style='color:#E8B830'>AI Core — Stable</strong>Well-defined, bounded problems with clear criteria. This is where AI consistently performs. Precise input → reliable output."/>
+
+      <!-- Core glow pulse -->
+      <circle cx="250" cy="250" r="60" fill="none" stroke="#E8B830" stroke-width="1" opacity=".4">
+        <animate attributeName="r" values="60;72;60" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".4;0;.4" dur="3s" repeatCount="indefinite"/>
+      </circle>
+
+      <!-- Labels -->
+      <text x="250" y="244" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#E8B830" text-decoration="none">AI CORE</text>
+      <text x="250" y="260" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" letter-spacing="1.5" fill="rgba(232,184,48,.6)">STABLE</text>
+
+      <text x="250" y="172" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.5" fill="rgba(46,204,143,.7)">COMPLICATED</text>
+
+      <text x="250" y="108" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.5" fill="rgba(75,143,226,.7)">COMPLEX</text>
+
+      <text x="250" y="40" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.5" fill="rgba(139,92,246,.7)">WICKED · CHAOTIC</text>
+
+      <!-- Axis labels -->
+      <text x="50" y="255" font-family="Inter,sans-serif" font-size="8" letter-spacing="1" fill="rgba(139,92,246,.5)" transform="rotate(-90,50,255)">THE WILDERNESS</text>
+      <text x="450" y="255" font-family="Inter,sans-serif" font-size="8" letter-spacing="1" fill="rgba(139,92,246,.5)" transform="rotate(90,450,255)">WILDERNESS GRAVITY</text>
+    </svg>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- SIDE NAV -->
+<nav class="sidenav" id="sidenav">
+  <div class="snd active" data-i="0" data-l="The Map"></div>
+  <div class="snd" data-i="1" data-l="The Map"></div>
+  <div class="snd" data-i="2" data-l="Anatomy"></div>
+  <div class="snd" data-i="3" data-l="The Data"></div>
+  <div class="snd" data-i="4" data-l="Gravity Effect"></div>
+  <div class="snd" data-i="5" data-l="The Wilderness"></div>
+  <div class="snd" data-i="6" data-l="Close"></div>
+</nav>
+
+<!-- SECTION 1: THE MAP -->
+<section class="sec" id="s1">
+  <div class="fi"><p class="eyebrow e-wkd">Section 1</p></div>
+  <div class="fi fi-d1"><h2>Every problem sits somewhere on this map.</h2></div>
+  <div class="fi fi-d2"><p>Not a project plan. Not a priority matrix. A map of how <em>defined</em> a problem is — how much of its shape, cause, and solution space you can see from where you're standing. The Horizon Map has four zones, moving outward from the center.</p></div>
+
+  <div class="ring-grid fi fi-d3">
+    <div class="rcard rc">
+      <div class="rcard-tag">The Core</div>
+      <h3>Well-Defined &amp; Bounded</h3>
+      <p>The situation is clear. The complication is specific. Success has a test. Medical imaging. Contract review. Code generation. When you operate from the Core, AI performs.</p>
+    </div>
+    <div class="rcard rp">
+      <div class="rcard-tag">Inner Ring — Complicated</div>
+      <h3>Structured but Complex</h3>
+      <p>Multiple moving parts that can be identified and sequenced. Engineering challenges, process optimization. AI assists powerfully with proper decomposition.</p>
+    </div>
+    <div class="rcard rx">
+      <div class="rcard-tag">Outer Ring — Complex</div>
+      <h3>Multi-Variable &amp; Adaptive</h3>
+      <p>Cause and effect are hard to isolate. Organizational dynamics, market behavior. AI can help at the sub-problem level — but the parent problem resists clean definition.</p>
+    </div>
+    <div class="rcard rw">
+      <div class="rcard-tag">The Fringe — Wicked</div>
+      <h3>The Wilderness</h3>
+      <p>Problems that don't just resist solution — they resist definition. Climate. Culture. Ethics. Strategy. Human judgment must establish the frame before AI can help at all.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="fi">
+    <h3>Why This Map Matters Now</h3>
+    <p>Before AI, poor problem definition was expensive but tolerable. Teams compensated with shared context and back-and-forth clarification. A junior analyst handed a fuzzy brief could ask follow-up questions and arrive at something workable.</p>
+    <p>AI cannot ask those questions. Or rather — it will answer without asking them, confidently, in the direction of whatever problem it inferred. Vague input doesn't produce a clarifying question. It produces a confidently-stated answer to the wrong question.</p>
+    <p>AI has made the cost of operating from the outer rings immediate and visible. It has turned problem definition from a soft skill into infrastructure. <strong>The rest of this article is about how to move inward.</strong></p>
+  </div>
+</section>
+
+<!-- SECTION 2: ANATOMY -->
+<section class="sec" id="s2">
+  <div class="fi"><p class="eyebrow e-cpx">Section 2</p></div>
+  <div class="fi fi-d1"><h2>The Anatomy of a Problem Statement</h2></div>
+  <div class="fi fi-d2"><p>When a doctor asks "what's wrong?" and you say "I feel tired," they can't help you much. But when you say "I've been tired every afternoon for three weeks, specifically after lunch, and I've also been unusually thirsty" — now they can work. Same complaint. Radically different amounts of context.</p>
+  <p>The difference between a problem AI can solve and one it can't almost always comes down to structure. That structure has three parts, drawn from Barbara Minto's <em>The Pyramid Principle</em>:</p></div>
+
+  <div class="scqa fi fi-d3">
+    <div class="sq">
+      <div class="sq-num">Part 1</div>
+      <h3>Situation — <em>The world as it is</em></h3>
+      <p style="margin:0;font-size:.92rem;color:var(--muted);">The stable facts that frame the problem. This is the context AI needs before it can orient itself. Without it, it's guessing at the mud.</p>
+      <div class="sq-ex">"Our SaaS product has 12,000 monthly active users. Our primary market is mid-sized logistics companies. We renewed 80% of contracts last year."</div>
+    </div>
+    <div class="sq">
+      <div class="sq-num">Part 2</div>
+      <h3>Complication — <em>What changed or what's wrong</em></h3>
+      <p style="margin:0;font-size:.92rem;color:var(--muted);">The specific tension or gap that makes this worth solving now.</p>
+      <div class="sq-ex">"In Q1, renewal rate dropped to 61% — a 19-point decline. Churned customers represent $2.3M in ARR."</div>
+    </div>
+    <div class="sq">
+      <div class="sq-num">Part 3</div>
+      <h3>Question — <em>What needs to be resolved</em></h3>
+      <p style="margin:0;font-size:.92rem;color:var(--muted);">The precise question that, if answered, would constitute solving the problem.</p>
+      <div class="sq-ex">"Which customer segments are churning and why, so we can prioritize retention interventions before Q2 renewal cycles begin?"</div>
+    </div>
+  </div>
+
+  <div class="fi">
+    <p>Compare that to what most people actually type: <em style="color:var(--muted)">"Our churn is up, help me figure out what to do."</em> Same underlying problem. Completely different starting position.</p>
+  </div>
+
+  <hr>
+
+  <div class="fi"><h3>The Logic Tree: Decompose Until AI-Ready</h3>
+  <p>Most real business problems start life in the outer rings — complex, wicked, hard to grip. The logic tree moves them inward. Click to expand each branch.</p></div>
+
+  <div class="tree fi fi-d1">
+    <div class="tree-node">
+      <div class="tl" onclick="toggleTree(this)">
+        <span class="tl-arrow">▶</span>
+        <span class="badge bw">Wicked</span>
+        <span class="tl-text">"Our company isn't growing fast enough"</span>
+      </div>
+      <div class="tc">
+        <div class="tree-node">
+          <div class="tl" onclick="toggleTree(this)">
+            <span class="tl-arrow">▶</span>
+            <span class="badge bx">Complex</span>
+            <span class="tl-text">Why are we losing existing customers?</span>
+          </div>
+          <div class="tc">
+            <div class="tree-node">
+              <div class="tl" onclick="toggleTree(this)">
+                <span class="tl-arrow">▶</span>
+                <span class="badge bp">Complicated</span>
+                <span class="tl-text">What is churn rate by customer segment?</span>
+              </div>
+              <div class="tc">
+                <div class="tree-node tl-leaf">
+                  <div class="tl">
+                    <span class="badge bc">Core ✓</span>
+                    <span class="tl-text">Analyze Q1–Q4 churn data by cohort and contract value</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tl" onclick="toggleTree(this)">
+                <span class="tl-arrow">▶</span>
+                <span class="badge bp">Complicated</span>
+                <span class="tl-text">What do churned customers say about why they left?</span>
+              </div>
+              <div class="tc">
+                <div class="tree-node tl-leaf">
+                  <div class="tl">
+                    <span class="badge bc">Core ✓</span>
+                    <span class="tl-text">Summarize exit survey responses by theme and frequency</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tree-node">
+          <div class="tl" onclick="toggleTree(this)">
+            <span class="tl-arrow">▶</span>
+            <span class="badge bx">Complex</span>
+            <span class="tl-text">Why aren't we acquiring new customers fast enough?</span>
+          </div>
+          <div class="tc">
+            <div class="tree-node">
+              <div class="tl" onclick="toggleTree(this)">
+                <span class="tl-arrow">▶</span>
+                <span class="badge bp">Complicated</span>
+                <span class="tl-text">Where does our acquisition funnel break down?</span>
+              </div>
+              <div class="tc">
+                <div class="tree-node tl-leaf">
+                  <div class="tl">
+                    <span class="badge bc">Core ✓</span>
+                    <span class="tl-text">Map conversion rates by stage and traffic source</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fi fi-d2">
+    <blockquote>AI lives at the leaves. Problem definition is the work of building the tree. The deeper you go, the more Situation and Complication you can supply — and the more reliably AI performs.</blockquote>
+  </div>
+</section>
+
+<!-- SECTION 3: THE DATA -->
+<div class="sec-alt" id="s3">
+  <div class="sec-inner">
+    <div class="fi"><p class="eyebrow e-comp">Section 3</p></div>
+    <div class="fi fi-d1"><h2>What the Data Says</h2></div>
+    <div class="fi fi-d2"><p><strong>80% of enterprise AI projects fail</strong> — not because the models are bad, but because of organizational and strategic failures (RAND Corporation, 2024). That's double the failure rate of traditional IT projects. In a separate Gallup survey, 73% of those failed projects shared one characteristic: no agreed definition of success before the work began.</p>
+    <p>The models are not the bottleneck. The problem statements are.</p></div>
+
+    <div class="stats-grid fi fi-d3">
+      <div class="sc sc-wkd">
+        <div class="stat-n" data-target="80" data-suffix="%">0%</div>
+        <div class="stat-l">of enterprise AI projects fail — 77% due to organizational/definitional failures</div>
+        <div class="stat-s">RAND Corporation, 2024</div>
+      </div>
+      <div class="sc sc-wkd">
+        <div class="stat-n" data-target="73" data-suffix="%">0%</div>
+        <div class="stat-l">of failed AI projects had no agreed definition of success</div>
+        <div class="stat-s">Gallup, 2024</div>
+      </div>
+      <div class="sc sc-cpx">
+        <div class="stat-n" data-target="65" data-suffix="%">0%</div>
+        <div class="stat-l">more factual errors from ambiguous vs. structured prompts</div>
+        <div class="stat-s">Frontiers in AI, 2025</div>
+      </div>
+      <div class="sc sc-core">
+        <div class="stat-n" data-target="94" data-suffix="%">0%</div>
+        <div class="stat-l">AI accuracy on NDA review vs. 85% for lawyers — in 26 seconds vs. 92 minutes</div>
+        <div class="stat-s">LawGeex / Stanford, 2021</div>
+      </div>
+      <div class="sc sc-core">
+        <div class="stat-n" data-target="55" data-suffix="%">0%</div>
+        <div class="stat-l">faster task completion with GitHub Copilot on scoped, well-defined problems</div>
+        <div class="stat-s">GitHub Research, 2024</div>
+      </div>
+      <div class="sc sc-core">
+        <div class="stat-n" data-target="81" data-suffix="%">0%</div>
+        <div class="stat-l">AI diagnostic accuracy vs. 71% human — on precisely defined imaging tasks</div>
+        <div class="stat-s">MDPI Meta-Analysis, 2024</div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="fi"><h3>Building Infrastructure for the Core</h3>
+    <p>Organizations that consistently operate from the Core don't rely solely on individual skill. They build artifacts that pre-load the Situation layer automatically.</p></div>
+
+    <div class="infra fi fi-d1">
+      <div class="ii">
+        <div class="ii-icon">📄</div>
+        <div>
+          <h4>Markdown Files &amp; System Prompts</h4>
+          <p>Encode standing context — constraints, terminology, success criteria — so the Situation is always present without re-stating it.</p>
+        </div>
+      </div>
+      <div class="ii">
+        <div class="ii-icon">📋</div>
+        <div>
+          <h4>Protocols &amp; SOPs</h4>
+          <p>Convert repeatable problems into templates. The Situation and Complication are pre-defined — AI focuses purely on the Question.</p>
+        </div>
+      </div>
+      <div class="ii">
+        <div class="ii-icon">🗄️</div>
+        <div>
+          <h4>Repositories &amp; Knowledge Bases</h4>
+          <p>Give AI grounded reference material. RAG systems pull the right context to the right problem at the right moment.</p>
+        </div>
+      </div>
+      <div class="ii">
+        <div class="ii-icon">🤖</div>
+        <div>
+          <h4>Agents</h4>
+          <p>A well-scoped agent is a specialist — role, tools, and context defined upfront. Multi-agent systems can mirror the logic tree itself.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: GRAVITY EFFECT -->
+<section class="sec" id="s4">
+  <div class="fi"><p class="eyebrow e-comp">Section 4</p></div>
+  <div class="fi fi-d1"><h2>The Gravity Effect</h2></div>
+  <div class="fi fi-d2"><p>The Horizon Map is diagnostic. It tells you where a problem lives. The question left open is: <em>how do you actually move it?</em> The answer is a five-step discipline that happens before you open the chat window.</p></div>
+
+  <div class="fi fi-d3">
+    <div class="step-tabs">
+      <button class="stab active" onclick="setStep(0,this)">1 · Place</button>
+      <button class="stab" onclick="setStep(1,this)">2 · Separate</button>
+      <button class="stab" onclick="setStep(2,this)">3 · Decompose</button>
+      <button class="stab" onclick="setStep(3,this)">4 · Load</button>
+      <button class="stab" onclick="setStep(4,this)">5 · Encode</button>
+    </div>
+    <div class="step-body active" id="step-0">
+      <h3>Place — Locate the Problem</h3>
+      <p>Before anything else, locate where your problem currently sits on the Horizon Map.</p>
+      <div class="fq">Can I state what success looks like in a single, testable sentence?</div>
+      <ul class="check-list">
+        <li><strong>Yes</strong> — you may already be in the Core or Inner Ring. Skip to Step 3.</li>
+        <li><strong>No</strong> — you're in Complex or Wicked territory. Start at Step 2.</li>
+      </ul>
+      <p style="font-size:.9rem;color:var(--muted);">This single question short-circuits the most common mistake: treating a Complex problem as if it's already well-defined, handing it to AI, and wondering why the output feels shallow.</p>
+    </div>
+    <div class="step-body" id="step-1">
+      <h3>Separate — Situation from Complication</h3>
+      <p>Most people conflate these. They state the Complication — what's wrong — without establishing the Situation — the world as it is.</p>
+      <div class="fq">What would someone need to know to understand why this is a problem right now?</div>
+      <p style="font-size:.9rem;color:var(--muted);">Write it down explicitly. Not in your head. On paper, before the question. This is the context layer — it's what tells AI whether the car is on the highway or in the mud. If you can't write the Situation in 2–3 sentences, the problem isn't ready yet.</p>
+    </div>
+    <div class="step-body" id="step-2">
+      <h3>Decompose — Build the Tree</h3>
+      <p>Take the high-level problem and ask: what are the 2–3 distinct sub-questions that, if answered, would resolve this? Do this recursively until you reach a question where you can specify:</p>
+      <ul class="check-list">
+        <li>What inputs AI needs</li>
+        <li>What form the answer should take</li>
+        <li>How you'd know if the answer is correct</li>
+      </ul>
+      <div class="fq">Given [Situation], find/analyze/summarize [specific thing] so that I can [clear outcome].</div>
+      <p style="font-size:.9rem;color:var(--muted);">If you can't write that sentence, the node needs another branch.</p>
+    </div>
+    <div class="step-body" id="step-3">
+      <h3>Load — Supply the Context</h3>
+      <p>At each leaf node, supply the full Situation before the Question. This means:</p>
+      <ul class="check-list">
+        <li><strong>Who</strong> has the problem and what role they play</li>
+        <li><strong>What</strong> the current state is — with specifics, numbers, timeframes</li>
+        <li><strong>What</strong> the desired outcome looks like</li>
+        <li><strong>What</strong> constraints apply — scope, format, audience</li>
+        <li><strong>How</strong> you'll evaluate the answer</li>
+      </ul>
+      <p style="font-size:.9rem;color:var(--muted);">This is the difference between a 65.9% hallucination rate and a 44.2% one. Every piece of Situation you supply is a degree of gravity pulling the problem toward the Core.</p>
+    </div>
+    <div class="step-body" id="step-4">
+      <h3>Encode — Make It Reusable</h3>
+      <p>Ask: will this problem recur?</p>
+      <ul class="check-list">
+        <li><strong>One-time:</strong> Write the full SCQ inline in your prompt. Move on.</li>
+        <li><strong>Recurring:</strong> Encode it — a markdown file, a system prompt, a protocol, an agent configuration.</li>
+      </ul>
+      <p style="font-size:.9rem;color:var(--muted);">The goal is to make the Situation layer institutional — written once, available always, no longer dependent on individual memory. A well-built protocol pulls every future instance of that problem directly into the Core from the start.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="fi"><h3>A Worked Example</h3><p>See a vague problem pulled toward the Core step by step.</p></div>
+
+  <div class="we fi fi-d1">
+    <div class="we-stage active" id="we-0">
+      <div class="we-stg-label">Starting Point — Wicked Fringe</div>
+      <div class="we-box bad">"We need to improve employee engagement."</div>
+      <p style="font-size:.88rem;color:var(--muted);margin:0;">No Situation. No defined Complication. No testable outcome. Handed to AI as-is, you'll get a generic list of best practices. Useful to no one.</p>
+    </div>
+    <div class="we-stage" id="we-1">
+      <div class="we-stg-label">After Steps 1–2 — Placed &amp; Separated</div>
+      <div class="we-box good"><strong>Situation:</strong> We are a 400-person manufacturing company. Engagement scores have dropped 14 points in 12 months, concentrated in shift workers at two plants. Exit interviews cite scheduling unpredictability as the top complaint. We have survey data from the last three cycles and shift schedule records for 18 months.<br><br><strong>Complication:</strong> Leadership wants to act before the next annual survey but doesn't know which intervention to prioritize.</div>
+    </div>
+    <div class="we-stage" id="we-2">
+      <div class="we-stg-label">After Step 3 — Decomposed to Leaf Nodes</div>
+      <div class="we-box core"><strong>Leaf A:</strong> Given the survey data, what themes correlate most strongly with the 14-point drop?<br><br><strong>Leaf B:</strong> Given shift schedule records, what patterns predict the highest dissatisfaction scores?<br><br><strong>Leaf C:</strong> Given Leaf A and B findings, what are the three highest-leverage interventions, ranked by feasibility?</div>
+      <p style="font-size:.88rem;color:var(--muted);margin:0;">Each leaf node is Core-ready. AI executes A and B in parallel. A human — or a synthesis agent — resolves C from their outputs. <strong>The problem didn't change. The definition did.</strong></p>
+    </div>
+    <div class="we-nav">
+      <button class="btn" id="we-prev" onclick="moveExample(-1)" disabled>← Back</button>
+      <span class="we-prog" id="we-prog">Step 1 of 3</span>
+      <button class="btn primary" id="we-next" onclick="moveExample(1)">Next →</button>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: WILDERNESS -->
+<div class="sec-wld" id="s5">
+  <div class="sec-inner">
+    <div class="fi"><p class="eyebrow e-wkd">Section 5</p></div>
+    <div class="fi fi-d1"><h2>The Wilderness Warning</h2></div>
+    <div class="fi fi-d2"><p>Not every problem can be pulled toward the Core. Some resist definition not because we haven't tried hard enough, but because <em>resistance to definition is their fundamental nature</em>. Rittel and Webber identified this in 1973 — wicked problems, where every attempt to define the problem changes it, where solutions generate new problems, where there is no single correct answer.</p>
+    <p>Climate policy. Organizational culture. Systemic inequality. Long-term corporate strategy. These aren't complex problems that haven't been decomposed yet. They're a different category entirely.</p></div>
+
+    <div class="warn-box fi fi-d3">
+      <div class="warn-label">⚠ The Confident Wrong Answer</div>
+      <p style="font-size:.93rem;margin:0;">In the Core, when AI fails, it fails <em>visibly</em> — a wrong calculation, a hallucinated citation. You can check it. In the Wilderness, AI fails differently: it produces answers that are coherent, confident, well-structured — and subtly wrong in ways that are hard to detect without deep domain judgment. The problem isn't that AI doesn't know it's in the Wilderness. <strong>The problem is it doesn't know the Wilderness exists.</strong></p>
+    </div>
+
+    <div class="fi">
+      <h3>What the Wilderness Demands</h3>
+      <p>The Wilderness doesn't mean AI-free. It means the order of operations changes. In the Core, you define the problem, then AI executes. In the Wilderness, <strong>humans must establish the frame before any tool — AI or otherwise — can be useful.</strong></p>
+      <p>The work that belongs to humans at the fringe:</p>
+      <ul class="check-list">
+        <li><strong>Value judgments</strong> — what matters most, and to whom</li>
+        <li><strong>Stakeholder synthesis</strong> — whose definition of the problem is valid</li>
+        <li><strong>Ethical constraints</strong> — what solutions are off the table regardless of effectiveness</li>
+        <li><strong>Direction-setting</strong> — which sub-problems are worth decomposing at all</li>
+      </ul>
+      <p>Only once that frame exists can the Logic Tree begin. The Wilderness isn't where AI stops being useful. It's where AI stops being <em>first</em>.</p>
+    </div>
+
+    <div class="ptest fi fi-d1">
+      <h3>A Practical Test</h3>
+      <p style="font-size:.9rem;color:var(--muted);">Before engaging AI on any high-stakes problem, ask yourself:</p>
+      <div class="ptest-q">If AI gave me three confident, well-structured answers to this question — would I be able to evaluate which one is right?</div>
+      <div class="ptest-btns">
+        <button class="pa yes" onclick="testAnswer('yes')">✓ Yes — I can evaluate the answer</button>
+        <button class="pa no" onclick="testAnswer('no')">✗ No — it depends on judgment I haven't made</button>
+      </div>
+      <div class="ptest-result proceed" id="test-yes">You're likely in the Inner Ring or Core. Proceed — supply the full Situation and Question, then let AI execute.</div>
+      <div class="ptest-result stop" id="test-no">You're at the fringe. Do the human work first. Establish the frame. Build the first branches of the tree. Then bring AI in at the leaf nodes.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CLOSE -->
+<section class="close-sec" id="s6">
+  <div class="fi"><h2>The Discipline Before the Tool</h2></div>
+  <div class="fi fi-d1">
+    <p>We have spent five years debating what AI can do. We have spent almost no time on what we need to do first.</p>
+    <p>The Horizon Map is not an argument about AI capability. The models are remarkable. The benchmarks are real. The productivity gains are documented. The argument is simpler and older than any of it: <strong>a tool performs to the quality of the problem handed to it.</strong></p>
+    <p>The organizations pulling ahead are not the ones with access to better models. They are the ones that have built the discipline — and increasingly the infrastructure — to define problems before they reach the model.</p>
+    <p>This is not a technical skill. It is a thinking skill. The same one that made great scientists and engineers valuable long before AI existed. What's changed is that AI has made it the entry requirement rather than the differentiator.</p>
+  </div>
+  <div class="close-cta fi fi-d2">
+    "Draw the tree before you open the chat window.<br>Everything else follows."
+  </div>
+</section>
+
+<!-- SOURCES -->
+<div class="sources">
+  <button class="src-toggle" onclick="toggleSources()">
+    <span id="src-arrow">▶</span> Sources &amp; References
+  </button>
+  <ul class="src-list" id="src-list">
+    <li>RAND Corporation (2024): Enterprise AI Project Failure Analysis — RRA2680-1</li>
+    <li>Gallup (2024): AI Strategy and Organizational Readiness Survey</li>
+    <li>Frontiers in Artificial Intelligence (2025): Survey and Analysis of Hallucinations in Large Language Models</li>
+    <li>Stanford HAI AI Index Report (2025) — hai.stanford.edu</li>
+    <li>GitHub Research (2024): Copilot Developer Productivity Study (n=95 professional developers)</li>
+    <li>MDPI (2024): Meta-Analysis on Comparison of Diagnostic Accuracy: AI vs. Healthcare Professionals</li>
+    <li>Northwestern Engineering (2025): New AI Transforms Radiology — 24,000 Report Study</li>
+    <li>S&P Global (2025): Enterprise AI Adoption Survey</li>
+    <li>LawGeex / Stanford Law (2021): AI Contract Review Accuracy Study</li>
+    <li>Rittel, H. &amp; Webber, M. (1973): Dilemmas in a General Theory of Planning</li>
+    <li>Snowden, D. (1999): The Cynefin Framework</li>
+    <li>Minto, B.: The Pyramid Principle</li>
+  </ul>
+</div>
+
+<script>
+// STARS
+(function(){
+  const c=document.getElementById('stars');
+  for(let i=0;i<80;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${3+Math.random()*6}s;--delay:${Math.random()*8}s;--op:${.15+Math.random()*.5};`;
+    c.appendChild(s);
+  }
+})();
+
+// SVG MAP TOOLTIP
+(function(){
+  const svg=document.getElementById('horizon-svg');
+  const tip=document.getElementById('map-tip');
+  const wrap=document.querySelector('.map-wrap');
+  const rings=svg.querySelectorAll('.map-ring');
+  const colors={core:'var(--core)',complicated:'var(--comp)',complex:'var(--cpx)',wicked:'var(--wkd)'};
+
+  rings.forEach(r=>{
+    r.style.cursor='pointer';
+    r.style.transition='opacity .25s';
+    r.addEventListener('mouseenter',function(e){
+      tip.innerHTML=this.dataset.tip;
+      tip.style.opacity='1';
+      rings.forEach(o=>{if(o!==this)o.style.opacity='.5';});
+    });
+    r.addEventListener('mousemove',function(e){
+      const rect=wrap.getBoundingClientRect();
+      let x=e.clientX-rect.left+14,y=e.clientY-rect.top-60;
+      if(x+200>rect.width)x=e.clientX-rect.left-214;
+      tip.style.left=x+'px';tip.style.top=y+'px';
+    });
+    r.addEventListener('mouseleave',function(){
+      tip.style.opacity='0';
+      rings.forEach(o=>o.style.opacity='1');
+    });
+    r.addEventListener('click',function(){
+      const zone=this.dataset.zone;
+      const map={core:'#s2',complicated:'#s2',complex:'#s1',wicked:'#s5'};
+      if(map[zone])document.querySelector(map[zone]).scrollIntoView({behavior:'smooth'});
+    });
+  });
+})();
+
+// SIDE NAV + SECTION TRACKING
+const sections=['s0','s1','s2','s3','s4','s5','s6'];
+const dots=document.querySelectorAll('.snd');
+dots.forEach(d=>{
+  d.addEventListener('click',function(){
+    document.getElementById(sections[+this.dataset.i]).scrollIntoView({behavior:'smooth'});
+  });
+});
+const sObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const i=sections.indexOf(e.target.id);
+      dots.forEach(d=>d.classList.remove('active'));
+      if(dots[i])dots[i].classList.add('active');
+    }
+  });
+},{threshold:.3});
+sections.forEach(id=>{const el=document.getElementById(id);if(el)sObs.observe(el);});
+
+// FADE IN
+const fiObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');fiObs.unobserve(e.target);}});
+},{threshold:.15});
+document.querySelectorAll('.fi').forEach(el=>fiObs.observe(el));
+
+// STAT COUNTERS
+function countUp(el,target,suffix){
+  let start=0,dur=1600,step=16;
+  const inc=target/(dur/step);
+  const t=setInterval(()=>{
+    start=Math.min(start+inc,target);
+    el.textContent=Math.round(start)+suffix;
+    if(start>=target)clearInterval(t);
+  },step);
+}
+const statObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const el=e.target;
+      countUp(el,+el.dataset.target,el.dataset.suffix||'');
+      statObs.unobserve(el);
+    }
+  });
+},{threshold:.5});
+document.querySelectorAll('.stat-n[data-target]').forEach(el=>statObs.observe(el));
+
+// LOGIC TREE
+function toggleTree(el){
+  const arrow=el.querySelector('.tl-arrow');
+  const children=el.nextElementSibling;
+  if(!children||!children.classList.contains('tc'))return;
+  const isOpen=children.classList.contains('open');
+  children.classList.toggle('open',!isOpen);
+  if(arrow)arrow.classList.toggle('open',!isOpen);
+}
+
+// STEPPER
+function setStep(i,btn){
+  document.querySelectorAll('.step-body').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.stab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('step-'+i).classList.add('active');
+  btn.classList.add('active');
+}
+
+// WORKED EXAMPLE
+let weIdx=0;const weTotal=3;
+function moveExample(dir){
+  document.getElementById('we-'+weIdx).classList.remove('active');
+  weIdx=Math.max(0,Math.min(weTotal-1,weIdx+dir));
+  document.getElementById('we-'+weIdx).classList.add('active');
+  document.getElementById('we-prev').disabled=weIdx===0;
+  document.getElementById('we-next').disabled=weIdx===weTotal-1;
+  document.getElementById('we-prog').textContent='Step '+(weIdx+1)+' of '+weTotal;
+}
+
+// PRACTICAL TEST
+function testAnswer(ans){
+  document.getElementById('test-yes').style.display='none';
+  document.getElementById('test-no').style.display='none';
+  document.getElementById('test-'+ans).style.display='block';
+}
+
+// SOURCES
+function toggleSources(){
+  const list=document.getElementById('src-list');
+  const arrow=document.getElementById('src-arrow');
+  const open=list.classList.toggle('open');
+  arrow.textContent=open?'▼':'▶';
+}
+</script>
+</body>
+</html>
