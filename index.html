@@ -7,43 +7,46 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --core: #E8B830;
-  --core-dim: rgba(232,184,48,0.12);
-  --comp: #2ECC8F;
-  --comp-dim: rgba(46,204,143,0.12);
-  --cpx: #4B8FE2;
-  --cpx-dim: rgba(75,143,226,0.12);
-  --wkd: #8B5CF6;
-  --wkd-dim: rgba(139,92,246,0.12);
-  --bg: #07080F;
-  --surface: #0D0F1E;
-  --surface2: #141628;
-  --border: rgba(255,255,255,0.07);
-  --text: #DDE0F0;
-  --muted: #7878A0;
-  --dim: #3A3A5A;
+  --core:    #FFC837;
+  --core-dim: rgba(255,200,55,0.13);
+  --comp:    #33E09A;
+  --comp-dim: rgba(51,224,154,0.13);
+  --cpx:     #5BAAFF;
+  --cpx-dim:  rgba(91,170,255,0.13);
+  --wkd:     #A570FF;
+  --wkd-dim:  rgba(165,112,255,0.13);
+  --bg:       #0B1220;
+  --surface:  #131D33;
+  --surface2: #192440;
+  --border:   rgba(255,255,255,0.10);
+  --border2:  rgba(255,255,255,0.16);
+  --text:     #ECF0FF;
+  --muted:    #8B96BE;
+  --dim:      #49547A;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;line-height:1.7;overflow-x:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;line-height:1.75;overflow-x:hidden;}
 h1,h2,h3{font-family:'Playfair Display',Georgia,serif;}
 
 /* STARS */
 #stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
-.star{position:absolute;width:1.5px;height:1.5px;background:#fff;border-radius:50%;animation:tw var(--d) var(--delay) infinite;}
+.star{position:absolute;border-radius:50%;animation:tw var(--d) var(--delay) infinite;}
 @keyframes tw{0%,100%{opacity:0;}50%{opacity:var(--op);}}
 
 /* HERO */
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px 80px;position:relative;z-index:1;}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(139,92,246,0.07) 0%,transparent 65%);}
+.hero-bg{position:absolute;inset:0;background:
+  radial-gradient(ellipse at 30% 20%, rgba(165,112,255,0.12) 0%,transparent 55%),
+  radial-gradient(ellipse at 70% 80%, rgba(91,170,255,0.10) 0%,transparent 55%),
+  radial-gradient(ellipse at 50% 50%, rgba(165,112,255,0.06) 0%,transparent 70%);}
 .hero-eyebrow{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;text-align:center;}
-.hero h1{font-size:clamp(2.4rem,6vw,4.5rem);line-height:1.08;text-align:center;margin-bottom:16px;background:linear-gradient(160deg,#fff 30%,rgba(255,255,255,.55));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.hero-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(.95rem,2.2vw,1.2rem);color:var(--muted);text-align:center;margin-bottom:52px;}
-.map-wrap{position:relative;width:min(440px,88vw);height:min(440px,88vw);}
-.map-wrap svg{width:100%;height:100%;filter:drop-shadow(0 0 48px rgba(139,92,246,.18));}
-/* Tooltip */
-#map-tip{position:absolute;pointer-events:none;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:.8rem;max-width:200px;opacity:0;transition:opacity .2s;z-index:10;line-height:1.5;}
-#map-tip strong{display:block;margin-bottom:4px;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;}
+.hero h1{font-size:clamp(2.6rem,6vw,5rem);line-height:1.06;text-align:center;margin-bottom:16px;background:linear-gradient(150deg,#fff 20%,rgba(200,210,255,.7));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(.95rem,2.2vw,1.25rem);color:var(--muted);text-align:center;margin-bottom:52px;}
+.map-wrap{position:relative;width:min(460px,88vw);height:min(460px,88vw);}
+.map-wrap svg{width:100%;height:100%;filter:drop-shadow(0 0 60px rgba(165,112,255,.22));}
+#map-tip{position:absolute;pointer-events:none;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:12px 16px;font-size:.8rem;max-width:210px;opacity:0;transition:opacity .2s;z-index:10;line-height:1.5;box-shadow:0 8px 32px rgba(0,0,0,.4);}
+#map-tip strong{display:block;margin-bottom:4px;font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;}
 .scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--dim);font-size:10px;letter-spacing:.18em;text-transform:uppercase;}
 .scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,transparent,var(--dim));animation:sp 2s infinite;}
 @keyframes sp{0%{transform:scaleY(0);transform-origin:top;}49%{transform:scaleY(1);transform-origin:top;}50%{transform:scaleY(1);transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
@@ -51,9 +54,9 @@ h1,h2,h3{font-family:'Playfair Display',Georgia,serif;}
 /* SIDE NAV */
 .sidenav{position:fixed;right:28px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:14px;}
 .snd{width:7px;height:7px;border-radius:50%;border:1.5px solid var(--dim);cursor:pointer;transition:all .25s;position:relative;}
-.snd::after{content:attr(data-l);position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:10px;white-space:nowrap;color:var(--muted);opacity:0;transition:opacity .2s;pointer-events:none;background:var(--surface);padding:2px 8px;border-radius:4px;}
+.snd::after{content:attr(data-l);position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:10px;white-space:nowrap;color:var(--muted);opacity:0;transition:opacity .2s;pointer-events:none;background:var(--surface2);padding:2px 8px;border-radius:4px;border:1px solid var(--border);}
 .snd:hover::after{opacity:1;}
-.snd.active{transform:scale(1.4);}
+.snd.active{transform:scale(1.5);}
 .snd[data-i="0"].active,.snd[data-i="1"].active{background:var(--wkd);border-color:var(--wkd);}
 .snd[data-i="2"].active{background:var(--cpx);border-color:var(--cpx);}
 .snd[data-i="3"].active{background:var(--comp);border-color:var(--comp);}
@@ -61,146 +64,136 @@ h1,h2,h3{font-family:'Playfair Display',Georgia,serif;}
 .snd[data-i="5"].active{background:var(--wkd);border-color:var(--wkd);}
 .snd[data-i="6"].active{background:var(--text);border-color:var(--text);}
 
-/* SECTIONS */
-.sec{max-width:780px;margin:0 auto;padding:96px 28px;position:relative;z-index:1;}
-.sec-alt{background:var(--surface);padding:96px 28px;position:relative;z-index:1;}
-.sec-alt .sec-inner{max-width:780px;margin:0 auto;}
-.sec-wld{background:linear-gradient(135deg,#0A0815 0%,#070810 100%);padding:96px 28px;position:relative;z-index:1;}
-.sec-wld .sec-inner{max-width:780px;margin:0 auto;}
-.eyebrow{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:14px;}
-.eyebrow.e-core{color:var(--core);}
-.eyebrow.e-comp{color:var(--comp);}
-.eyebrow.e-cpx{color:var(--cpx);}
-.eyebrow.e-wkd{color:var(--wkd);}
-h2{font-size:clamp(1.7rem,3.8vw,2.6rem);line-height:1.18;margin-bottom:28px;color:#fff;}
-h3{font-size:1.18rem;margin-bottom:12px;color:#fff;}
+/* LAYOUT */
+.sec{max-width:800px;margin:0 auto;padding:100px 28px;position:relative;z-index:1;}
+.sec-alt{background:var(--surface);padding:100px 28px;position:relative;z-index:1;}
+.sec-alt .sec-inner{max-width:800px;margin:0 auto;}
+.sec-wld{background:linear-gradient(160deg,#0D0B1E 0%,#0A1020 100%);padding:100px 28px;position:relative;z-index:1;}
+.sec-wld .sec-inner{max-width:800px;margin:0 auto;}
+
+/* TYPOGRAPHY */
+.eyebrow{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;margin-bottom:14px;}
+.eyebrow.e-core{color:var(--core);}.eyebrow.e-comp{color:var(--comp);}.eyebrow.e-cpx{color:var(--cpx);}.eyebrow.e-wkd{color:var(--wkd);}
+h2{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.15;margin-bottom:28px;color:#fff;}
+h3{font-size:1.2rem;margin-bottom:12px;color:#fff;}
 p{color:var(--text);margin-bottom:18px;font-size:1rem;}
 strong{color:#fff;font-weight:600;}
-hr{border:none;border-top:1px solid var(--border);margin:36px 0;}
-blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;background:rgba(232,184,48,.05);border-radius:0 8px 8px 0;font-style:italic;color:var(--muted);font-size:.93rem;}
+blockquote{border-left:2px solid var(--core);padding:14px 20px;margin:20px 0;background:rgba(255,200,55,.06);border-radius:0 10px 10px 0;font-style:italic;color:var(--muted);font-size:.95rem;}
+hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
 
 /* FADE IN */
-.fi{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease;}
+.fi{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
 .fi.vis{opacity:1;transform:translateY(0);}
 .fi-d1{transition-delay:.1s;}.fi-d2{transition-delay:.2s;}.fi-d3{transition-delay:.3s;}
 
 /* RING CARDS */
 .ring-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:36px 0;}
-.rcard{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:22px;position:relative;overflow:hidden;transition:all .25s;cursor:default;}
+.rcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;position:relative;overflow:hidden;transition:all .25s;}
 .rcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;}
 .rcard.rc{--c:var(--core);} .rcard.rp{--c:var(--comp);} .rcard.rx{--c:var(--cpx);} .rcard.rw{--c:var(--wkd);}
 .rcard::before{background:var(--c);}
-.rcard:hover{border-color:rgba(255,255,255,.13);box-shadow:0 6px 28px rgba(0,0,0,.4);}
+.rcard:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 36px rgba(0,0,0,.35);}
 .rcard-tag{font-size:9px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--c);margin-bottom:7px;}
 .rcard h3{font-size:1rem;margin-bottom:8px;}
 .rcard p{font-size:.85rem;color:var(--muted);margin:0;}
 
 /* SCQA */
-.scqa{display:flex;flex-direction:column;gap:13px;margin:36px 0;}
-.sq{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:22px;transition:all .25s;}
-.sq:hover{background:var(--surface2);border-color:rgba(255,255,255,.13);}
+.scqa{display:flex;flex-direction:column;gap:12px;margin:36px 0;}
+.sq{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;transition:all .25s;}
+.sq:hover{background:var(--surface2);border-color:var(--border2);}
 .sq-num{font-size:10px;font-weight:600;letter-spacing:.15em;color:var(--dim);text-transform:uppercase;margin-bottom:5px;}
 .sq h3{font-size:1.05rem;margin-bottom:8px;}
-.sq-ex{background:rgba(255,255,255,.03);border-left:2px solid var(--border);padding:12px 16px;margin-top:12px;border-radius:0 7px 7px 0;font-size:.87rem;color:var(--muted);font-style:italic;}
+.sq-ex{background:rgba(255,255,255,.04);border-left:2px solid var(--border2);padding:12px 16px;margin-top:12px;border-radius:0 7px 7px 0;font-size:.87rem;color:var(--muted);font-style:italic;}
 
-/* LOGIC TREE */
-.tree{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:28px;margin:36px 0;overflow-x:auto;}
-.tree-node{margin:0;}
-.tl{display:flex;align-items:center;gap:9px;padding:5px 8px;border-radius:6px;cursor:pointer;user-select:none;transition:background .2s;}
-.tl:hover{background:rgba(255,255,255,.04);}
-.tc{margin-left:24px;border-left:1px solid var(--border);padding-left:16px;overflow:hidden;max-height:0;opacity:0;transition:max-height .45s ease,opacity .3s ease;}
-.tc.open{max-height:600px;opacity:1;}
-.badge{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;white-space:nowrap;flex-shrink:0;}
-.bw{background:var(--wkd-dim);color:var(--wkd);border:1px solid rgba(139,92,246,.25);}
-.bx{background:var(--cpx-dim);color:var(--cpx);border:1px solid rgba(75,143,226,.25);}
-.bp{background:var(--comp-dim);color:var(--comp);border:1px solid rgba(46,204,143,.25);}
-.bc{background:var(--core-dim);color:var(--core);border:1px solid rgba(232,184,48,.25);}
-.tl-text{font-size:.84rem;color:var(--text);}
-.tl-arrow{font-size:10px;color:var(--dim);transition:transform .25s;flex-shrink:0;}
-.tl-arrow.open{transform:rotate(90deg);}
-.tl-leaf .tl-text{color:var(--muted);}
+/* VISUAL TREE */
+.vtree-wrap{margin:40px 0;overflow-x:auto;}
+.vtree-wrap svg{min-width:680px;width:100%;}
+.vnode{cursor:pointer;transition:all .2s;}
+.vnode rect{transition:all .2s;}
+.vnode:hover rect{filter:brightness(1.25);}
+.vnode text{pointer-events:none;font-family:'Inter',sans-serif;}
+.vtree-legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:18px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:10px;}
+.vleg{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--muted);}
+.vleg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
 
 /* STATS */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:16px;margin:36px 0;}
-.sc{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:24px 20px;position:relative;overflow:hidden;}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:36px 0;}
+.sc{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:24px 20px;position:relative;overflow:hidden;transition:all .25s;}
+.sc:hover{border-color:var(--border2);transform:translateY(-2px);}
 .sc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;}
 .sc.sc-core::after{background:var(--core);} .sc.sc-comp::after{background:var(--comp);} .sc.sc-cpx::after{background:var(--cpx);} .sc.sc-wkd::after{background:var(--wkd);}
-.stat-n{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;line-height:1;margin-bottom:7px;}
+.stat-n{font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;line-height:1;margin-bottom:7px;}
 .sc-core .stat-n{color:var(--core);} .sc-comp .stat-n{color:var(--comp);} .sc-cpx .stat-n{color:var(--cpx);} .sc-wkd .stat-n{color:var(--wkd);}
-.stat-l{font-size:.82rem;color:var(--muted);line-height:1.4;}
+.stat-l{font-size:.82rem;color:var(--muted);line-height:1.45;}
 .stat-s{font-size:.7rem;color:var(--dim);margin-top:6px;font-style:italic;}
 
 /* INFRA */
 .infra{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:28px 0;}
 .ii{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:18px;display:flex;gap:12px;align-items:flex-start;transition:all .25s;}
-.ii:hover{border-color:rgba(255,255,255,.12);background:var(--surface);}
-.ii-icon{width:34px;height:34px;border-radius:7px;background:var(--core-dim);border:1px solid rgba(232,184,48,.18);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
-.ii h4{font-size:.87rem;font-weight:600;margin-bottom:3px;}
-.ii p{font-size:.79rem;color:var(--muted);margin:0;line-height:1.45;}
+.ii:hover{border-color:var(--border2);background:var(--surface);}
+.ii-icon{width:36px;height:36px;border-radius:8px;background:var(--core-dim);border:1px solid rgba(255,200,55,.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.ii h4{font-size:.88rem;font-weight:600;margin-bottom:3px;}
+.ii p{font-size:.8rem;color:var(--muted);margin:0;line-height:1.45;}
 
 /* STEPPER */
-.step-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:20px;}
+.step-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;}
 .stab{padding:7px 16px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;}
 .stab:hover{border-color:var(--core);color:var(--core);}
 .stab.active{background:var(--core);border-color:var(--core);color:#000;font-weight:600;}
-.step-body{display:none;background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:28px;animation:fi .3s ease;}
+.step-body{display:none;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;animation:anim-fi .3s ease;}
 .step-body.active{display:block;}
-@keyframes fi{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-.fq{background:rgba(232,184,48,.07);border:1px solid rgba(232,184,48,.2);border-radius:8px;padding:14px 18px;margin:14px 0;font-style:italic;font-size:.93rem;}
+@keyframes anim-fi{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.fq{background:rgba(255,200,55,.07);border:1px solid rgba(255,200,55,.22);border-radius:9px;padding:14px 18px;margin:14px 0;font-style:italic;font-size:.93rem;}
 .check-list{list-style:none;margin:14px 0;}
 .check-list li{padding:6px 0 6px 24px;position:relative;font-size:.9rem;color:var(--muted);}
 .check-list li::before{content:'→';position:absolute;left:0;color:var(--core);}
 
 /* WORKED EXAMPLE */
-.we{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:28px;margin:36px 0;}
+.we{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;margin:36px 0;}
 .we-stage{display:none;}
-.we-stage.active{display:block;animation:fi .35s ease;}
+.we-stage.active{display:block;animation:anim-fi .35s ease;}
 .we-stg-label{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:14px;}
-.we-box{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:16px 18px;font-size:.88rem;color:var(--muted);font-style:italic;line-height:1.7;margin-bottom:12px;}
-.we-box.bad{border-color:rgba(139,92,246,.3);background:rgba(139,92,246,.05);}
-.we-box.good{border-color:rgba(46,204,143,.3);background:rgba(46,204,143,.04);}
-.we-box.core{border-color:rgba(232,184,48,.3);background:rgba(232,184,48,.04);}
+.we-box{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:16px 18px;font-size:.88rem;color:var(--muted);font-style:italic;line-height:1.75;margin-bottom:12px;}
+.we-box.bad{border-color:rgba(165,112,255,.35);background:rgba(165,112,255,.06);}
+.we-box.good{border-color:rgba(51,224,154,.3);background:rgba(51,224,154,.05);}
+.we-box.core{border-color:rgba(255,200,55,.32);background:rgba(255,200,55,.05);}
 .we-nav{display:flex;align-items:center;justify-content:space-between;margin-top:18px;}
 .we-prog{font-size:10px;color:var(--dim);letter-spacing:.1em;}
-.btn{padding:9px 20px;border-radius:8px;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;border:1px solid var(--border);background:transparent;color:var(--text);}
-.btn:hover{background:rgba(255,255,255,.05);}
+.btn{padding:9px 20px;border-radius:9px;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;border:1px solid var(--border);background:transparent;color:var(--text);}
+.btn:hover{background:rgba(255,255,255,.06);}
 .btn.primary{background:var(--core);border-color:var(--core);color:#000;font-weight:600;}
-.btn.primary:hover{background:#f0c840;}
+.btn.primary:hover{background:#ffd355;}
 .btn:disabled{opacity:.3;cursor:not-allowed;}
 
 /* WILDERNESS */
-.warn-box{border:1px solid rgba(139,92,246,.35);background:rgba(139,92,246,.06);border-radius:11px;padding:24px;margin:28px 0;}
+.warn-box{border:1px solid rgba(165,112,255,.4);background:rgba(165,112,255,.07);border-radius:12px;padding:24px;margin:28px 0;}
 .warn-label{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--wkd);margin-bottom:8px;}
-.ptest{background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:28px;margin:36px 0;}
+.ptest{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:28px;margin:36px 0;}
 .ptest-q{font-family:'Playfair Display',serif;font-style:italic;font-size:1.12rem;border-left:3px solid var(--wkd);padding-left:18px;margin:20px 0;line-height:1.5;}
 .ptest-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
-.pa{padding:14px;border-radius:8px;border:1px solid var(--border);cursor:pointer;font-size:.88rem;text-align:center;transition:all .2s;font-family:'Inter',sans-serif;background:transparent;color:var(--text);}
-.pa.yes:hover{background:rgba(46,204,143,.1);border-color:var(--comp);color:var(--comp);}
-.pa.no:hover{background:rgba(139,92,246,.1);border-color:var(--wkd);color:var(--wkd);}
-.ptest-result{margin-top:16px;padding:14px 18px;border-radius:8px;font-size:.88rem;display:none;animation:fi .3s ease;}
-.ptest-result.proceed{background:rgba(46,204,143,.09);border:1px solid rgba(46,204,143,.3);color:var(--comp);}
-.ptest-result.stop{background:rgba(139,92,246,.09);border:1px solid rgba(139,92,246,.3);color:var(--wkd);}
+.pa{padding:14px;border-radius:9px;border:1px solid var(--border);cursor:pointer;font-size:.88rem;text-align:center;transition:all .2s;font-family:'Inter',sans-serif;background:transparent;color:var(--text);}
+.pa.yes:hover{background:rgba(51,224,154,.1);border-color:var(--comp);color:var(--comp);}
+.pa.no:hover{background:rgba(165,112,255,.1);border-color:var(--wkd);color:var(--wkd);}
+.ptest-result{margin-top:16px;padding:14px 18px;border-radius:9px;font-size:.88rem;display:none;animation:anim-fi .3s ease;}
+.ptest-result.proceed{background:rgba(51,224,154,.09);border:1px solid rgba(51,224,154,.3);color:var(--comp);}
+.ptest-result.stop{background:rgba(165,112,255,.09);border:1px solid rgba(165,112,255,.3);color:var(--wkd);}
 
 /* CLOSE */
-.close-sec{padding:120px 28px;max-width:720px;margin:0 auto;text-align:center;position:relative;z-index:1;}
-.close-sec h2{font-size:clamp(1.9rem,4.5vw,3.2rem);margin-bottom:36px;}
+.close-sec{padding:130px 28px;max-width:740px;margin:0 auto;text-align:center;position:relative;z-index:1;}
+.close-sec h2{font-size:clamp(2rem,4.5vw,3.2rem);margin-bottom:36px;}
 .close-sec p{font-size:1rem;color:var(--muted);max-width:580px;margin:0 auto 20px;}
-.close-cta{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.2rem,2.8vw,1.8rem);color:var(--core);margin:52px 0;line-height:1.45;}
+.close-cta{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.3rem,2.8vw,1.9rem);color:var(--core);margin:54px 0;line-height:1.45;}
 
 /* SOURCES */
-.sources{max-width:780px;margin:0 auto;padding:0 28px 80px;position:relative;z-index:1;}
+.sources{max-width:800px;margin:0 auto;padding:0 28px 80px;position:relative;z-index:1;}
 .src-toggle{background:none;border:none;color:var(--dim);font-size:.82rem;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:'Inter',sans-serif;letter-spacing:.05em;}
 .src-toggle:hover{color:var(--muted);}
 .src-list{display:none;margin-top:16px;border-top:1px solid var(--border);padding-top:16px;}
-.src-list.open{display:block;animation:fi .3s ease;}
+.src-list.open{display:block;animation:anim-fi .3s ease;}
 .src-list li{font-size:.77rem;color:var(--dim);margin-bottom:7px;list-style:none;padding-left:14px;position:relative;}
 .src-list li::before{content:'—';position:absolute;left:0;}
 
-/* RESPONSIVE */
-@media(max-width:600px){.ring-grid,.infra{grid-template-columns:1fr;}.ptest-btns{grid-template-columns:1fr;}.sidenav{display:none;}.stats-grid{grid-template-columns:1fr 1fr;}}
-
-/* SVG MAP ANIMATION */
-@keyframes pulse{0%,100%{r:60;}50%{r:64;}}
+@media(max-width:620px){.ring-grid,.infra{grid-template-columns:1fr;}.ptest-btns{grid-template-columns:1fr;}.sidenav{display:none;}.stats-grid{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
@@ -219,64 +212,45 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
     <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" id="horizon-svg">
       <defs>
         <radialGradient id="gWkd" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#2A1560"/>
-          <stop offset="100%" stop-color="#0E0820"/>
+          <stop offset="0%" stop-color="#281450"/>
+          <stop offset="100%" stop-color="#100820"/>
         </radialGradient>
         <radialGradient id="gCpx" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#0D2050"/>
-          <stop offset="100%" stop-color="#091535"/>
+          <stop offset="0%" stop-color="#0E2258"/>
+          <stop offset="100%" stop-color="#081535"/>
         </radialGradient>
         <radialGradient id="gComp" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#0A3028"/>
-          <stop offset="100%" stop-color="#071E18"/>
+          <stop offset="0%" stop-color="#0A3530"/>
+          <stop offset="100%" stop-color="#071E1A"/>
         </radialGradient>
         <radialGradient id="gCore" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#705200"/>
-          <stop offset="100%" stop-color="#3A2800"/>
+          <stop offset="0%" stop-color="#806000"/>
+          <stop offset="100%" stop-color="#402E00"/>
         </radialGradient>
-        <filter id="glow-wkd"><feGaussianBlur stdDeviation="6" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <filter id="glow-core"><feGaussianBlur stdDeviation="8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="glow"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
       </defs>
 
-      <!-- Wicked ring -->
-      <circle cx="250" cy="250" r="236" fill="url(#gWkd)" stroke="#8B5CF6" stroke-width="1.5" opacity=".9"
-        class="map-ring" data-zone="wicked"
-        data-tip="<strong style='color:#8B5CF6'>The Wilderness</strong>Wicked & Chaotic problems resist definition. Solutions generate new problems. Human judgment must establish the frame before AI can help."/>
+      <circle cx="250" cy="250" r="238" fill="url(#gWkd)" stroke="#A570FF" stroke-width="1.5" class="map-ring" data-zone="wicked"
+        data-tip="<strong style='color:#A570FF'>The Wilderness</strong>Wicked &amp; Chaotic problems resist definition. Solutions generate new problems. Human judgment must come first."/>
+      <circle cx="250" cy="250" r="174" fill="url(#gCpx)" stroke="#5BAAFF" stroke-width="1.5" class="map-ring" data-zone="complex"
+        data-tip="<strong style='color:#5BAAFF'>Outer Ring — Complex</strong>Multi-variable, adaptive problems. AI helps at sub-problem level but the parent problem resists clean definition."/>
+      <circle cx="250" cy="250" r="112" fill="url(#gComp)" stroke="#33E09A" stroke-width="1.5" class="map-ring" data-zone="complicated"
+        data-tip="<strong style='color:#33E09A'>Inner Ring — Complicated</strong>Structured problems with multiple parts. Solvable with expertise and decomposition. AI assists powerfully here."/>
+      <circle cx="250" cy="250" r="60" fill="url(#gCore)" stroke="#FFC837" stroke-width="2" filter="url(#glow)" class="map-ring" data-zone="core"
+        data-tip="<strong style='color:#FFC837'>AI Core — Stable</strong>Well-defined, bounded, clear criteria. This is where AI consistently performs. Precise input → reliable output."/>
 
-      <!-- Complex ring -->
-      <circle cx="250" cy="250" r="172" fill="url(#gCpx)" stroke="#4B8FE2" stroke-width="1.5"
-        class="map-ring" data-zone="complex"
-        data-tip="<strong style='color:#4B8FE2'>Outer Ring — Complex</strong>Multi-variable, adaptive problems. AI can work at sub-problem level, but the parent problem resists clean definition."/>
-
-      <!-- Complicated ring -->
-      <circle cx="250" cy="250" r="112" fill="url(#gComp)" stroke="#2ECC8F" stroke-width="1.5"
-        class="map-ring" data-zone="complicated"
-        data-tip="<strong style='color:#2ECC8F'>Inner Ring — Complicated</strong>Structured problems with multiple parts. Solvable with expertise and decomposition. AI assists powerfully here."/>
-
-      <!-- Core -->
-      <circle cx="250" cy="250" r="60" fill="url(#gCore)" stroke="#E8B830" stroke-width="2" filter="url(#glow-core)"
-        class="map-ring" data-zone="core"
-        data-tip="<strong style='color:#E8B830'>AI Core — Stable</strong>Well-defined, bounded problems with clear criteria. This is where AI consistently performs. Precise input → reliable output."/>
-
-      <!-- Core glow pulse -->
-      <circle cx="250" cy="250" r="60" fill="none" stroke="#E8B830" stroke-width="1" opacity=".4">
-        <animate attributeName="r" values="60;72;60" dur="3s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values=".4;0;.4" dur="3s" repeatCount="indefinite"/>
+      <circle cx="250" cy="250" r="60" fill="none" stroke="#FFC837" stroke-width="1" opacity=".5">
+        <animate attributeName="r" values="60;76;60" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".5;0;.5" dur="3s" repeatCount="indefinite"/>
       </circle>
 
-      <!-- Labels -->
-      <text x="250" y="244" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#E8B830" text-decoration="none">AI CORE</text>
-      <text x="250" y="260" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" letter-spacing="1.5" fill="rgba(232,184,48,.6)">STABLE</text>
-
-      <text x="250" y="172" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.5" fill="rgba(46,204,143,.7)">COMPLICATED</text>
-
-      <text x="250" y="108" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.5" fill="rgba(75,143,226,.7)">COMPLEX</text>
-
-      <text x="250" y="40" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.5" fill="rgba(139,92,246,.7)">WICKED · CHAOTIC</text>
-
-      <!-- Axis labels -->
-      <text x="50" y="255" font-family="Inter,sans-serif" font-size="8" letter-spacing="1" fill="rgba(139,92,246,.5)" transform="rotate(-90,50,255)">THE WILDERNESS</text>
-      <text x="450" y="255" font-family="Inter,sans-serif" font-size="8" letter-spacing="1" fill="rgba(139,92,246,.5)" transform="rotate(90,450,255)">WILDERNESS GRAVITY</text>
+      <text x="250" y="244" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#FFC837">AI CORE</text>
+      <text x="250" y="260" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" letter-spacing="1.5" fill="rgba(255,200,55,.6)">STABLE</text>
+      <text x="250" y="170" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.5" fill="rgba(51,224,154,.75)">COMPLICATED</text>
+      <text x="250" y="107" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.5" fill="rgba(91,170,255,.75)">COMPLEX</text>
+      <text x="250" y="40" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.5" fill="rgba(165,112,255,.75)">WICKED · CHAOTIC</text>
+      <text x="46" y="260" font-family="Inter,sans-serif" font-size="8" letter-spacing="1" fill="rgba(165,112,255,.5)" transform="rotate(-90,46,260)">THE WILDERNESS</text>
+      <text x="454" y="260" font-family="Inter,sans-serif" font-size="8" letter-spacing="1" fill="rgba(165,112,255,.5)" transform="rotate(90,454,260)">WILDERNESS GRAVITY</text>
     </svg>
   </div>
 
@@ -288,7 +262,7 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
 
 <!-- SIDE NAV -->
 <nav class="sidenav" id="sidenav">
-  <div class="snd active" data-i="0" data-l="The Map"></div>
+  <div class="snd active" data-i="0" data-l="Hero"></div>
   <div class="snd" data-i="1" data-l="The Map"></div>
   <div class="snd" data-i="2" data-l="Anatomy"></div>
   <div class="snd" data-i="3" data-l="The Data"></div>
@@ -301,7 +275,7 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
 <section class="sec" id="s1">
   <div class="fi"><p class="eyebrow e-wkd">Section 1</p></div>
   <div class="fi fi-d1"><h2>Every problem sits somewhere on this map.</h2></div>
-  <div class="fi fi-d2"><p>Not a project plan. Not a priority matrix. A map of how <em>defined</em> a problem is — how much of its shape, cause, and solution space you can see from where you're standing. The Horizon Map has four zones, moving outward from the center.</p></div>
+  <div class="fi fi-d2"><p>Not a project plan. Not a priority matrix. A map of how <em>defined</em> a problem is — how much of its shape, cause, and solution space you can see from where you're standing. Four zones, moving outward from the center.</p></div>
 
   <div class="ring-grid fi fi-d3">
     <div class="rcard rc">
@@ -311,18 +285,18 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
     </div>
     <div class="rcard rp">
       <div class="rcard-tag">Inner Ring — Complicated</div>
-      <h3>Structured but Complex</h3>
-      <p>Multiple moving parts that can be identified and sequenced. Engineering challenges, process optimization. AI assists powerfully with proper decomposition.</p>
+      <h3>Structured but Multi-Part</h3>
+      <p>Multiple moving parts that can be identified and sequenced. Engineering challenges, process optimization. AI assists powerfully here with proper decomposition.</p>
     </div>
     <div class="rcard rx">
       <div class="rcard-tag">Outer Ring — Complex</div>
       <h3>Multi-Variable &amp; Adaptive</h3>
-      <p>Cause and effect are hard to isolate. Organizational dynamics, market behavior. AI can help at the sub-problem level — but the parent problem resists clean definition.</p>
+      <p>Cause and effect are hard to isolate. Organizational dynamics, market behavior. AI helps at the sub-problem level — but the parent problem resists clean definition.</p>
     </div>
     <div class="rcard rw">
       <div class="rcard-tag">The Fringe — Wicked</div>
       <h3>The Wilderness</h3>
-      <p>Problems that don't just resist solution — they resist definition. Climate. Culture. Ethics. Strategy. Human judgment must establish the frame before AI can help at all.</p>
+      <p>Problems that resist definition entirely. Climate. Culture. Ethics. Strategy. Human judgment must establish the frame before AI can help at all.</p>
     </div>
   </div>
 
@@ -330,7 +304,7 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
 
   <div class="fi">
     <h3>Why This Map Matters Now</h3>
-    <p>Before AI, poor problem definition was expensive but tolerable. Teams compensated with shared context and back-and-forth clarification. A junior analyst handed a fuzzy brief could ask follow-up questions and arrive at something workable.</p>
+    <p>Before AI, poor problem definition was expensive but tolerable. Teams compensated with shared context and follow-up questions. A junior analyst with a fuzzy brief could ask three clarifying questions and arrive at something workable.</p>
     <p>AI cannot ask those questions. Or rather — it will answer without asking them, confidently, in the direction of whatever problem it inferred. Vague input doesn't produce a clarifying question. It produces a confidently-stated answer to the wrong question.</p>
     <p>AI has made the cost of operating from the outer rings immediate and visible. It has turned problem definition from a soft skill into infrastructure. <strong>The rest of this article is about how to move inward.</strong></p>
   </div>
@@ -340,8 +314,10 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
 <section class="sec" id="s2">
   <div class="fi"><p class="eyebrow e-cpx">Section 2</p></div>
   <div class="fi fi-d1"><h2>The Anatomy of a Problem Statement</h2></div>
-  <div class="fi fi-d2"><p>When a doctor asks "what's wrong?" and you say "I feel tired," they can't help you much. But when you say "I've been tired every afternoon for three weeks, specifically after lunch, and I've also been unusually thirsty" — now they can work. Same complaint. Radically different amounts of context.</p>
-  <p>The difference between a problem AI can solve and one it can't almost always comes down to structure. That structure has three parts, drawn from Barbara Minto's <em>The Pyramid Principle</em>:</p></div>
+  <div class="fi fi-d2">
+    <p>When a doctor asks "what's wrong?" and you say "I feel tired," they can't help you much. But when you say "I've been tired every afternoon for three weeks, specifically after lunch, and I've also been unusually thirsty" — now they can work. Same complaint. Radically different amounts of context.</p>
+    <p>A well-formed problem statement has three parts, drawn from Barbara Minto's <em>The Pyramid Principle</em>:</p>
+  </div>
 
   <div class="scqa fi fi-d3">
     <div class="sq">
@@ -370,81 +346,114 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
 
   <hr>
 
-  <div class="fi"><h3>The Logic Tree: Decompose Until AI-Ready</h3>
-  <p>Most real business problems start life in the outer rings — complex, wicked, hard to grip. The logic tree moves them inward. Click to expand each branch.</p></div>
+  <div class="fi"><h3>The Logic Tree — Visualized</h3>
+  <p>Any high-level problem can be decomposed into sub-problems, each closer to the Core. Click a node to highlight its path. Hover for details.</p></div>
 
-  <div class="tree fi fi-d1">
-    <div class="tree-node">
-      <div class="tl" onclick="toggleTree(this)">
-        <span class="tl-arrow">▶</span>
-        <span class="badge bw">Wicked</span>
-        <span class="tl-text">"Our company isn't growing fast enough"</span>
-      </div>
-      <div class="tc">
-        <div class="tree-node">
-          <div class="tl" onclick="toggleTree(this)">
-            <span class="tl-arrow">▶</span>
-            <span class="badge bx">Complex</span>
-            <span class="tl-text">Why are we losing existing customers?</span>
-          </div>
-          <div class="tc">
-            <div class="tree-node">
-              <div class="tl" onclick="toggleTree(this)">
-                <span class="tl-arrow">▶</span>
-                <span class="badge bp">Complicated</span>
-                <span class="tl-text">What is churn rate by customer segment?</span>
-              </div>
-              <div class="tc">
-                <div class="tree-node tl-leaf">
-                  <div class="tl">
-                    <span class="badge bc">Core ✓</span>
-                    <span class="tl-text">Analyze Q1–Q4 churn data by cohort and contract value</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="tree-node">
-              <div class="tl" onclick="toggleTree(this)">
-                <span class="tl-arrow">▶</span>
-                <span class="badge bp">Complicated</span>
-                <span class="tl-text">What do churned customers say about why they left?</span>
-              </div>
-              <div class="tc">
-                <div class="tree-node tl-leaf">
-                  <div class="tl">
-                    <span class="badge bc">Core ✓</span>
-                    <span class="tl-text">Summarize exit survey responses by theme and frequency</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="tree-node">
-          <div class="tl" onclick="toggleTree(this)">
-            <span class="tl-arrow">▶</span>
-            <span class="badge bx">Complex</span>
-            <span class="tl-text">Why aren't we acquiring new customers fast enough?</span>
-          </div>
-          <div class="tc">
-            <div class="tree-node">
-              <div class="tl" onclick="toggleTree(this)">
-                <span class="tl-arrow">▶</span>
-                <span class="badge bp">Complicated</span>
-                <span class="tl-text">Where does our acquisition funnel break down?</span>
-              </div>
-              <div class="tc">
-                <div class="tree-node tl-leaf">
-                  <div class="tl">
-                    <span class="badge bc">Core ✓</span>
-                    <span class="tl-text">Map conversion rates by stage and traffic source</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <!-- VISUAL TREE SVG -->
+  <div class="vtree-wrap fi fi-d1">
+    <svg id="vtree" viewBox="0 0 760 375" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="nglow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+
+      <!-- CONNECTOR LINES -->
+      <g stroke="var(--border2)" stroke-width="1.5" fill="none" opacity=".7">
+        <!-- Root → Left Complex -->
+        <path d="M380,64 C380,92 165,92 165,114"/>
+        <!-- Root → Right Complex -->
+        <path d="M380,64 C380,92 595,92 595,114"/>
+        <!-- Left → LL Complicated -->
+        <path d="M165,162 C165,188 95,188 95,210"/>
+        <!-- Left → LR Complicated -->
+        <path d="M165,162 C165,188 270,188 270,210"/>
+        <!-- Right → RL Complicated -->
+        <path d="M595,162 C595,188 595,188 595,210"/>
+        <!-- LL → Core 1 -->
+        <path d="M95,252 L95,298"/>
+        <!-- LR → Core 2 -->
+        <path d="M270,252 L270,298"/>
+        <!-- RL → Core 3 -->
+        <path d="M595,252 L595,298"/>
+      </g>
+
+      <!-- ROOT: WICKED -->
+      <g class="vnode" id="vn-root" onclick="highlightPath('root')" data-tip="Starting point: A high-level business problem with no single cause, no clear owner, and no obvious solution. Wicked territory.">
+        <rect x="220" y="14" width="320" height="50" rx="10" fill="rgba(165,112,255,.18)" stroke="#A570FF" stroke-width="1.5"/>
+        <text x="380" y="35" text-anchor="middle" font-size="9" fill="rgba(165,112,255,.85)" font-weight="600" letter-spacing="1.2">WICKED</text>
+        <text x="380" y="52" text-anchor="middle" font-size="11.5" fill="#ECF0FF" font-weight="500">"Company isn't growing fast enough"</text>
+      </g>
+
+      <!-- LEFT: COMPLEX -->
+      <g class="vnode" id="vn-lc" onclick="highlightPath('lc')" data-tip="Complex: Why are we losing existing customers? — multi-causal, needs decomposition before AI can help.">
+        <rect x="55" y="114" width="220" height="48" rx="9" fill="rgba(91,170,255,.15)" stroke="#5BAAFF" stroke-width="1.5"/>
+        <text x="165" y="133" text-anchor="middle" font-size="8.5" fill="rgba(91,170,255,.85)" font-weight="600" letter-spacing="1.1">COMPLEX</text>
+        <text x="165" y="150" text-anchor="middle" font-size="11" fill="#ECF0FF">Why are we losing customers?</text>
+      </g>
+
+      <!-- RIGHT: COMPLEX -->
+      <g class="vnode" id="vn-rc" onclick="highlightPath('rc')" data-tip="Complex: Why aren't we acquiring fast enough? — another multi-variable question needing breakdown.">
+        <rect x="485" y="114" width="220" height="48" rx="9" fill="rgba(91,170,255,.15)" stroke="#5BAAFF" stroke-width="1.5"/>
+        <text x="595" y="133" text-anchor="middle" font-size="8.5" fill="rgba(91,170,255,.85)" font-weight="600" letter-spacing="1.1">COMPLEX</text>
+        <text x="595" y="150" text-anchor="middle" font-size="11" fill="#ECF0FF">Why aren't we acquiring fast enough?</text>
+      </g>
+
+      <!-- LL: COMPLICATED -->
+      <g class="vnode" id="vn-ll" onclick="highlightPath('ll')" data-tip="Complicated: Churn rate by segment — structured, solvable with data. Almost Core-ready.">
+        <rect x="18" y="210" width="154" height="42" rx="8" fill="rgba(51,224,154,.13)" stroke="#33E09A" stroke-width="1.5"/>
+        <text x="95" y="227" text-anchor="middle" font-size="8" fill="rgba(51,224,154,.85)" font-weight="600" letter-spacing="1">COMPLICATED</text>
+        <text x="95" y="243" text-anchor="middle" font-size="10.5" fill="#ECF0FF">Churn rate by segment?</text>
+      </g>
+
+      <!-- LR: COMPLICATED -->
+      <g class="vnode" id="vn-lr" onclick="highlightPath('lr')" data-tip="Complicated: Exit survey themes — structured analysis, clear inputs and outputs.">
+        <rect x="193" y="210" width="154" height="42" rx="8" fill="rgba(51,224,154,.13)" stroke="#33E09A" stroke-width="1.5"/>
+        <text x="270" y="227" text-anchor="middle" font-size="8" fill="rgba(51,224,154,.85)" font-weight="600" letter-spacing="1">COMPLICATED</text>
+        <text x="270" y="243" text-anchor="middle" font-size="10.5" fill="#ECF0FF">Exit survey themes?</text>
+      </g>
+
+      <!-- RL: COMPLICATED -->
+      <g class="vnode" id="vn-rl" onclick="highlightPath('rl')" data-tip="Complicated: Where does the funnel break? — can be analyzed with specific data inputs.">
+        <rect x="518" y="210" width="154" height="42" rx="8" fill="rgba(51,224,154,.13)" stroke="#33E09A" stroke-width="1.5"/>
+        <text x="595" y="227" text-anchor="middle" font-size="8" fill="rgba(51,224,154,.85)" font-weight="600" letter-spacing="1">COMPLICATED</text>
+        <text x="595" y="243" text-anchor="middle" font-size="10.5" fill="#ECF0FF">Where does funnel break?</text>
+      </g>
+
+      <!-- CORE 1 -->
+      <g class="vnode" id="vn-c1" onclick="highlightPath('c1')" filter="url(#nglow)" data-tip="Core ✓ — AI-ready. Given Q1–Q4 data, analyze churn by cohort and contract value. Precise input, clear output, evaluable result.">
+        <rect x="18" y="298" width="154" height="60" rx="8" fill="rgba(255,200,55,.16)" stroke="#FFC837" stroke-width="2"/>
+        <text x="95" y="316" text-anchor="middle" font-size="8" fill="rgba(255,200,55,.9)" font-weight="700" letter-spacing="1">CORE ✓</text>
+        <text x="95" y="331" text-anchor="middle" font-size="10" fill="#FFC837">Analyze churn data</text>
+        <text x="95" y="347" text-anchor="middle" font-size="10" fill="#FFC837">by cohort &amp; value</text>
+      </g>
+
+      <!-- CORE 2 -->
+      <g class="vnode" id="vn-c2" onclick="highlightPath('c2')" filter="url(#nglow)" data-tip="Core ✓ — AI-ready. Summarize exit survey responses by theme and frequency. Defined task, defined output.">
+        <rect x="193" y="298" width="154" height="60" rx="8" fill="rgba(255,200,55,.16)" stroke="#FFC837" stroke-width="2"/>
+        <text x="270" y="316" text-anchor="middle" font-size="8" fill="rgba(255,200,55,.9)" font-weight="700" letter-spacing="1">CORE ✓</text>
+        <text x="270" y="331" text-anchor="middle" font-size="10" fill="#FFC837">Summarize exit survey</text>
+        <text x="270" y="347" text-anchor="middle" font-size="10" fill="#FFC837">themes &amp; frequency</text>
+      </g>
+
+      <!-- CORE 3 -->
+      <g class="vnode" id="vn-c3" onclick="highlightPath('c3')" filter="url(#nglow)" data-tip="Core ✓ — AI-ready. Map conversion rates by stage and traffic source. Clear data inputs, specific output format.">
+        <rect x="518" y="298" width="154" height="60" rx="8" fill="rgba(255,200,55,.16)" stroke="#FFC837" stroke-width="2"/>
+        <text x="595" y="316" text-anchor="middle" font-size="8" fill="rgba(255,200,55,.9)" font-weight="700" letter-spacing="1">CORE ✓</text>
+        <text x="595" y="331" text-anchor="middle" font-size="10" fill="#FFC837">Map funnel conversion</text>
+        <text x="595" y="347" text-anchor="middle" font-size="10" fill="#FFC837">by stage &amp; source</text>
+      </g>
+
+      <!-- Gravity arrows -->
+      <text x="400" y="340" text-anchor="middle" font-size="9" fill="var(--dim)" letter-spacing=".5">← AI executes at the leaves →</text>
+    </svg>
+
+    <!-- Node tooltip -->
+    <div id="vtip" style="display:none;position:absolute;background:var(--surface2);border:1px solid var(--border2);border-radius:9px;padding:11px 14px;font-size:.79rem;max-width:220px;line-height:1.5;box-shadow:0 8px 28px rgba(0,0,0,.45);pointer-events:none;z-index:20;color:var(--muted);"></div>
+
+    <div class="vtree-legend">
+      <div class="vleg"><div class="vleg-dot" style="background:#A570FF;"></div>Wicked — resists definition</div>
+      <div class="vleg"><div class="vleg-dot" style="background:#5BAAFF;"></div>Complex — needs decomposition</div>
+      <div class="vleg"><div class="vleg-dot" style="background:#33E09A;"></div>Complicated — structured</div>
+      <div class="vleg"><div class="vleg-dot" style="background:#FFC837;"></div>Core — AI-ready</div>
     </div>
   </div>
 
@@ -497,36 +506,28 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
     <hr>
 
     <div class="fi"><h3>Building Infrastructure for the Core</h3>
-    <p>Organizations that consistently operate from the Core don't rely solely on individual skill. They build artifacts that pre-load the Situation layer automatically.</p></div>
+    <p>Organizations that consistently operate from the Core build artifacts that pre-load the Situation layer automatically — so every problem arrives pre-situated rather than depending on individual discipline each time.</p></div>
 
     <div class="infra fi fi-d1">
       <div class="ii">
         <div class="ii-icon">📄</div>
-        <div>
-          <h4>Markdown Files &amp; System Prompts</h4>
-          <p>Encode standing context — constraints, terminology, success criteria — so the Situation is always present without re-stating it.</p>
-        </div>
+        <div><h4>Markdown Files &amp; System Prompts</h4>
+        <p>Encode standing context — constraints, terminology, success criteria — so the Situation is always present without re-stating it.</p></div>
       </div>
       <div class="ii">
         <div class="ii-icon">📋</div>
-        <div>
-          <h4>Protocols &amp; SOPs</h4>
-          <p>Convert repeatable problems into templates. The Situation and Complication are pre-defined — AI focuses purely on the Question.</p>
-        </div>
+        <div><h4>Protocols &amp; SOPs</h4>
+        <p>Convert repeatable problems into templates. The Situation and Complication are pre-defined — AI focuses purely on the Question.</p></div>
       </div>
       <div class="ii">
         <div class="ii-icon">🗄️</div>
-        <div>
-          <h4>Repositories &amp; Knowledge Bases</h4>
-          <p>Give AI grounded reference material. RAG systems pull the right context to the right problem at the right moment.</p>
-        </div>
+        <div><h4>Repositories &amp; Knowledge Bases</h4>
+        <p>Give AI grounded reference material. RAG systems pull the right context to the right problem at the right moment.</p></div>
       </div>
       <div class="ii">
         <div class="ii-icon">🤖</div>
-        <div>
-          <h4>Agents</h4>
-          <p>A well-scoped agent is a specialist — role, tools, and context defined upfront. Multi-agent systems can mirror the logic tree itself.</p>
-        </div>
+        <div><h4>Agents</h4>
+        <p>A well-scoped agent is a specialist — role, tools, and context defined upfront. Multi-agent systems can mirror the logic tree itself.</p></div>
       </div>
     </div>
   </div>
@@ -534,9 +535,9 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
 
 <!-- SECTION 4: GRAVITY EFFECT -->
 <section class="sec" id="s4">
-  <div class="fi"><p class="eyebrow e-comp">Section 4</p></div>
+  <div class="fi"><p class="eyebrow e-core">Section 4</p></div>
   <div class="fi fi-d1"><h2>The Gravity Effect</h2></div>
-  <div class="fi fi-d2"><p>The Horizon Map is diagnostic. It tells you where a problem lives. The question left open is: <em>how do you actually move it?</em> The answer is a five-step discipline that happens before you open the chat window.</p></div>
+  <div class="fi fi-d2"><p>The Horizon Map is diagnostic. It tells you where a problem lives. The question left open is: <em>how do you actually move it?</em> Five steps — all happening before you open the chat window.</p></div>
 
   <div class="fi fi-d3">
     <div class="step-tabs">
@@ -547,24 +548,24 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
       <button class="stab" onclick="setStep(4,this)">5 · Encode</button>
     </div>
     <div class="step-body active" id="step-0">
-      <h3>Place — Locate the Problem</h3>
+      <h3>Place — Locate the Problem on the Map</h3>
       <p>Before anything else, locate where your problem currently sits on the Horizon Map.</p>
       <div class="fq">Can I state what success looks like in a single, testable sentence?</div>
       <ul class="check-list">
         <li><strong>Yes</strong> — you may already be in the Core or Inner Ring. Skip to Step 3.</li>
         <li><strong>No</strong> — you're in Complex or Wicked territory. Start at Step 2.</li>
       </ul>
-      <p style="font-size:.9rem;color:var(--muted);">This single question short-circuits the most common mistake: treating a Complex problem as if it's already well-defined, handing it to AI, and wondering why the output feels shallow.</p>
+      <p style="font-size:.9rem;color:var(--muted);">This short-circuits the most common mistake: treating a Complex problem as if it's already well-defined, handing it to AI, and wondering why the output feels shallow.</p>
     </div>
     <div class="step-body" id="step-1">
       <h3>Separate — Situation from Complication</h3>
       <p>Most people conflate these. They state the Complication — what's wrong — without establishing the Situation — the world as it is.</p>
       <div class="fq">What would someone need to know to understand why this is a problem right now?</div>
-      <p style="font-size:.9rem;color:var(--muted);">Write it down explicitly. Not in your head. On paper, before the question. This is the context layer — it's what tells AI whether the car is on the highway or in the mud. If you can't write the Situation in 2–3 sentences, the problem isn't ready yet.</p>
+      <p style="font-size:.9rem;color:var(--muted);">Write it down explicitly. Not in your head. This is the context layer — it's what tells AI whether the car is on the highway or in the mud. If you can't write the Situation in 2–3 sentences, the problem isn't ready yet.</p>
     </div>
     <div class="step-body" id="step-2">
       <h3>Decompose — Build the Tree</h3>
-      <p>Take the high-level problem and ask: what are the 2–3 distinct sub-questions that, if answered, would resolve this? Do this recursively until you reach a question where you can specify:</p>
+      <p>Take the high-level problem and ask: what are the 2–3 distinct sub-questions that, if answered, would resolve this? Do this recursively until you can specify:</p>
       <ul class="check-list">
         <li>What inputs AI needs</li>
         <li>What form the answer should take</li>
@@ -574,37 +575,36 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
       <p style="font-size:.9rem;color:var(--muted);">If you can't write that sentence, the node needs another branch.</p>
     </div>
     <div class="step-body" id="step-3">
-      <h3>Load — Supply the Context</h3>
-      <p>At each leaf node, supply the full Situation before the Question. This means:</p>
+      <h3>Load — Supply the Full Context</h3>
+      <p>At each leaf node, supply the full Situation before the Question:</p>
       <ul class="check-list">
         <li><strong>Who</strong> has the problem and what role they play</li>
-        <li><strong>What</strong> the current state is — with specifics, numbers, timeframes</li>
+        <li><strong>What</strong> the current state is — specifics, numbers, timeframes</li>
         <li><strong>What</strong> the desired outcome looks like</li>
         <li><strong>What</strong> constraints apply — scope, format, audience</li>
         <li><strong>How</strong> you'll evaluate the answer</li>
       </ul>
-      <p style="font-size:.9rem;color:var(--muted);">This is the difference between a 65.9% hallucination rate and a 44.2% one. Every piece of Situation you supply is a degree of gravity pulling the problem toward the Core.</p>
+      <p style="font-size:.9rem;color:var(--muted);">This is the difference between a 65.9% hallucination rate and a 44.2% one. Every piece of Situation is a degree of gravity pulling the problem toward the Core.</p>
     </div>
     <div class="step-body" id="step-4">
       <h3>Encode — Make It Reusable</h3>
       <p>Ask: will this problem recur?</p>
       <ul class="check-list">
         <li><strong>One-time:</strong> Write the full SCQ inline in your prompt. Move on.</li>
-        <li><strong>Recurring:</strong> Encode it — a markdown file, a system prompt, a protocol, an agent configuration.</li>
+        <li><strong>Recurring:</strong> Encode it — a markdown file, system prompt, protocol, or agent configuration.</li>
       </ul>
-      <p style="font-size:.9rem;color:var(--muted);">The goal is to make the Situation layer institutional — written once, available always, no longer dependent on individual memory. A well-built protocol pulls every future instance of that problem directly into the Core from the start.</p>
+      <p style="font-size:.9rem;color:var(--muted);">A well-built protocol pulls every future instance of that problem directly into the Core from the start. The Situation layer becomes institutional, not personal.</p>
     </div>
   </div>
 
   <hr>
 
   <div class="fi"><h3>A Worked Example</h3><p>See a vague problem pulled toward the Core step by step.</p></div>
-
   <div class="we fi fi-d1">
     <div class="we-stage active" id="we-0">
       <div class="we-stg-label">Starting Point — Wicked Fringe</div>
       <div class="we-box bad">"We need to improve employee engagement."</div>
-      <p style="font-size:.88rem;color:var(--muted);margin:0;">No Situation. No defined Complication. No testable outcome. Handed to AI as-is, you'll get a generic list of best practices. Useful to no one.</p>
+      <p style="font-size:.88rem;color:var(--muted);margin:0;">No Situation. No defined Complication. No testable outcome. Handed to AI as-is, you'll get a generic list of best practices useful to no one.</p>
     </div>
     <div class="we-stage" id="we-1">
       <div class="we-stg-label">After Steps 1–2 — Placed &amp; Separated</div>
@@ -612,8 +612,8 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
     </div>
     <div class="we-stage" id="we-2">
       <div class="we-stg-label">After Step 3 — Decomposed to Leaf Nodes</div>
-      <div class="we-box core"><strong>Leaf A:</strong> Given the survey data, what themes correlate most strongly with the 14-point drop?<br><br><strong>Leaf B:</strong> Given shift schedule records, what patterns predict the highest dissatisfaction scores?<br><br><strong>Leaf C:</strong> Given Leaf A and B findings, what are the three highest-leverage interventions, ranked by feasibility?</div>
-      <p style="font-size:.88rem;color:var(--muted);margin:0;">Each leaf node is Core-ready. AI executes A and B in parallel. A human — or a synthesis agent — resolves C from their outputs. <strong>The problem didn't change. The definition did.</strong></p>
+      <div class="we-box core"><strong>Leaf A:</strong> Given the survey data, what themes correlate most strongly with the 14-point drop?<br><br><strong>Leaf B:</strong> Given shift schedule records, what patterns predict the highest dissatisfaction scores?<br><br><strong>Leaf C:</strong> Given Leaf A &amp; B findings, what are the three highest-leverage interventions ranked by feasibility?</div>
+      <p style="font-size:.88rem;color:var(--muted);margin:0;">Each leaf is Core-ready. AI executes A and B in parallel. A human — or a synthesis agent — resolves C. <strong>The problem didn't change. The definition did.</strong></p>
     </div>
     <div class="we-nav">
       <button class="btn" id="we-prev" onclick="moveExample(-1)" disabled>← Back</button>
@@ -628,25 +628,24 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
   <div class="sec-inner">
     <div class="fi"><p class="eyebrow e-wkd">Section 5</p></div>
     <div class="fi fi-d1"><h2>The Wilderness Warning</h2></div>
-    <div class="fi fi-d2"><p>Not every problem can be pulled toward the Core. Some resist definition not because we haven't tried hard enough, but because <em>resistance to definition is their fundamental nature</em>. Rittel and Webber identified this in 1973 — wicked problems, where every attempt to define the problem changes it, where solutions generate new problems, where there is no single correct answer.</p>
+    <div class="fi fi-d2"><p>Not every problem can be pulled toward the Core. Some resist definition not because we haven't tried hard enough, but because <em>resistance to definition is their fundamental nature</em>. Rittel and Webber identified this in 1973 — wicked problems, where every attempt to define the problem changes it, and where solutions generate new problems.</p>
     <p>Climate policy. Organizational culture. Systemic inequality. Long-term corporate strategy. These aren't complex problems that haven't been decomposed yet. They're a different category entirely.</p></div>
 
     <div class="warn-box fi fi-d3">
       <div class="warn-label">⚠ The Confident Wrong Answer</div>
-      <p style="font-size:.93rem;margin:0;">In the Core, when AI fails, it fails <em>visibly</em> — a wrong calculation, a hallucinated citation. You can check it. In the Wilderness, AI fails differently: it produces answers that are coherent, confident, well-structured — and subtly wrong in ways that are hard to detect without deep domain judgment. The problem isn't that AI doesn't know it's in the Wilderness. <strong>The problem is it doesn't know the Wilderness exists.</strong></p>
+      <p style="font-size:.93rem;margin:0;">In the Core, when AI fails, it fails <em>visibly</em>. In the Wilderness, AI produces answers that are coherent, confident, well-structured — and subtly wrong in ways that are hard to detect without deep domain judgment. <strong>The problem isn't that AI doesn't know it's in the Wilderness. The problem is it doesn't know the Wilderness exists.</strong></p>
     </div>
 
     <div class="fi">
       <h3>What the Wilderness Demands</h3>
-      <p>The Wilderness doesn't mean AI-free. It means the order of operations changes. In the Core, you define the problem, then AI executes. In the Wilderness, <strong>humans must establish the frame before any tool — AI or otherwise — can be useful.</strong></p>
-      <p>The work that belongs to humans at the fringe:</p>
+      <p>The Wilderness doesn't mean AI-free. It means the order of operations changes. In the Core, you define the problem, then AI executes. In the Wilderness, <strong>humans must establish the frame before any tool can be useful.</strong></p>
       <ul class="check-list">
         <li><strong>Value judgments</strong> — what matters most, and to whom</li>
         <li><strong>Stakeholder synthesis</strong> — whose definition of the problem is valid</li>
         <li><strong>Ethical constraints</strong> — what solutions are off the table regardless of effectiveness</li>
-        <li><strong>Direction-setting</strong> — which sub-problems are worth decomposing at all</li>
+        <li><strong>Direction-setting</strong> — which sub-problems are even worth decomposing</li>
       </ul>
-      <p>Only once that frame exists can the Logic Tree begin. The Wilderness isn't where AI stops being useful. It's where AI stops being <em>first</em>.</p>
+      <p>The Wilderness isn't where AI stops being useful. It's where AI stops being <em>first</em>.</p>
     </div>
 
     <div class="ptest fi fi-d1">
@@ -668,13 +667,11 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
   <div class="fi"><h2>The Discipline Before the Tool</h2></div>
   <div class="fi fi-d1">
     <p>We have spent five years debating what AI can do. We have spent almost no time on what we need to do first.</p>
-    <p>The Horizon Map is not an argument about AI capability. The models are remarkable. The benchmarks are real. The productivity gains are documented. The argument is simpler and older than any of it: <strong>a tool performs to the quality of the problem handed to it.</strong></p>
-    <p>The organizations pulling ahead are not the ones with access to better models. They are the ones that have built the discipline — and increasingly the infrastructure — to define problems before they reach the model.</p>
-    <p>This is not a technical skill. It is a thinking skill. The same one that made great scientists and engineers valuable long before AI existed. What's changed is that AI has made it the entry requirement rather than the differentiator.</p>
+    <p>The Horizon Map is not an argument about AI capability. The models are remarkable. The benchmarks are real. The productivity gains are documented. The argument is simpler: <strong>a tool performs to the quality of the problem handed to it.</strong> Always has.</p>
+    <p>The organizations pulling ahead are not the ones with access to better models. They are the ones that have built the discipline — and the infrastructure — to define problems before they reach the model.</p>
+    <p>This is not a technical skill. It is a thinking skill. What's changed is that AI has made it the entry requirement rather than the differentiator.</p>
   </div>
-  <div class="close-cta fi fi-d2">
-    "Draw the tree before you open the chat window.<br>Everything else follows."
-  </div>
+  <div class="close-cta fi fi-d2">"Draw the tree before you open the chat window.<br>Everything else follows."</div>
 </section>
 
 <!-- SOURCES -->
@@ -688,8 +685,8 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
     <li>Frontiers in Artificial Intelligence (2025): Survey and Analysis of Hallucinations in Large Language Models</li>
     <li>Stanford HAI AI Index Report (2025) — hai.stanford.edu</li>
     <li>GitHub Research (2024): Copilot Developer Productivity Study (n=95 professional developers)</li>
-    <li>MDPI (2024): Meta-Analysis on Comparison of Diagnostic Accuracy: AI vs. Healthcare Professionals</li>
-    <li>Northwestern Engineering (2025): New AI Transforms Radiology — 24,000 Report Study</li>
+    <li>MDPI (2024): Meta-Analysis — AI vs. Healthcare Professional Diagnostic Accuracy</li>
+    <li>Northwestern Engineering (2025): AI in Radiology — 24,000 Report Study</li>
     <li>S&P Global (2025): Enterprise AI Adoption Survey</li>
     <li>LawGeex / Stanford Law (2021): AI Contract Review Accuracy Study</li>
     <li>Rittel, H. &amp; Webber, M. (1973): Dilemmas in a General Theory of Planning</li>
@@ -702,10 +699,11 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
 // STARS
 (function(){
   const c=document.getElementById('stars');
-  for(let i=0;i<80;i++){
+  for(let i=0;i<90;i++){
     const s=document.createElement('div');
     s.className='star';
-    s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${3+Math.random()*6}s;--delay:${Math.random()*8}s;--op:${.15+Math.random()*.5};`;
+    const sz=Math.random()<.7?1.5:2.5;
+    s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${sz}px;height:${sz}px;background:#fff;--d:${3+Math.random()*7}s;--delay:${Math.random()*9}s;--op:${.12+Math.random()*.45};`;
     c.appendChild(s);
   }
 })();
@@ -715,43 +713,77 @@ blockquote{border-left:2px solid var(--core);padding:12px 18px;margin:18px 0;bac
   const svg=document.getElementById('horizon-svg');
   const tip=document.getElementById('map-tip');
   const wrap=document.querySelector('.map-wrap');
-  const rings=svg.querySelectorAll('.map-ring');
-  const colors={core:'var(--core)',complicated:'var(--comp)',complex:'var(--cpx)',wicked:'var(--wkd)'};
-
-  rings.forEach(r=>{
-    r.style.cursor='pointer';
-    r.style.transition='opacity .25s';
-    r.addEventListener('mouseenter',function(e){
-      tip.innerHTML=this.dataset.tip;
-      tip.style.opacity='1';
-      rings.forEach(o=>{if(o!==this)o.style.opacity='.5';});
+  svg.querySelectorAll('.map-ring').forEach(r=>{
+    r.style.cursor='pointer';r.style.transition='opacity .25s';
+    r.addEventListener('mouseenter',function(){
+      tip.innerHTML=this.dataset.tip;tip.style.opacity='1';
+      svg.querySelectorAll('.map-ring').forEach(o=>{if(o!==this)o.style.opacity='.45';});
     });
     r.addEventListener('mousemove',function(e){
       const rect=wrap.getBoundingClientRect();
-      let x=e.clientX-rect.left+14,y=e.clientY-rect.top-60;
-      if(x+200>rect.width)x=e.clientX-rect.left-214;
+      let x=e.clientX-rect.left+16,y=e.clientY-rect.top-70;
+      if(x+215>rect.width)x=e.clientX-rect.left-230;
       tip.style.left=x+'px';tip.style.top=y+'px';
     });
     r.addEventListener('mouseleave',function(){
       tip.style.opacity='0';
-      rings.forEach(o=>o.style.opacity='1');
+      svg.querySelectorAll('.map-ring').forEach(o=>o.style.opacity='1');
     });
     r.addEventListener('click',function(){
-      const zone=this.dataset.zone;
-      const map={core:'#s2',complicated:'#s2',complex:'#s1',wicked:'#s5'};
-      if(map[zone])document.querySelector(map[zone]).scrollIntoView({behavior:'smooth'});
+      const m={core:'#s2',complicated:'#s2',complex:'#s1',wicked:'#s5'};
+      if(m[this.dataset.zone])document.querySelector(m[this.dataset.zone]).scrollIntoView({behavior:'smooth'});
     });
   });
 })();
 
-// SIDE NAV + SECTION TRACKING
+// VISUAL TREE TOOLTIPS & HIGHLIGHT
+const vtip=document.getElementById('vtip');
+const pathMap={
+  'root':['vn-root'],
+  'lc':['vn-root','vn-lc'],
+  'rc':['vn-root','vn-rc'],
+  'll':['vn-root','vn-lc','vn-ll'],
+  'lr':['vn-root','vn-lc','vn-lr'],
+  'rl':['vn-root','vn-rc','vn-rl'],
+  'c1':['vn-root','vn-lc','vn-ll','vn-c1'],
+  'c2':['vn-root','vn-lc','vn-lr','vn-c2'],
+  'c3':['vn-root','vn-rc','vn-rl','vn-c3']
+};
+let activeHighlight=null;
+function highlightPath(key){
+  document.querySelectorAll('#vtree .vnode').forEach(n=>n.style.opacity='0.35');
+  if(activeHighlight===key){
+    document.querySelectorAll('#vtree .vnode').forEach(n=>n.style.opacity='1');
+    activeHighlight=null;return;
+  }
+  activeHighlight=key;
+  (pathMap[key]||[]).forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.style.opacity='1';
+  });
+}
+document.querySelectorAll('#vtree .vnode').forEach(n=>{
+  n.addEventListener('mouseenter',function(e){
+    if(this.dataset.tip){
+      vtip.innerHTML=this.dataset.tip;vtip.style.display='block';
+    }
+  });
+  n.addEventListener('mousemove',function(e){
+    const rect=document.querySelector('.vtree-wrap').getBoundingClientRect();
+    let x=e.clientX-rect.left+14,y=e.clientY-rect.top-70;
+    if(x+230>rect.width)x=e.clientX-rect.left-244;
+    if(y<0)y=10;
+    vtip.style.left=x+'px';vtip.style.top=y+'px';
+  });
+  n.addEventListener('mouseleave',function(){vtip.style.display='none';});
+});
+
+// SIDE NAV
 const sections=['s0','s1','s2','s3','s4','s5','s6'];
 const dots=document.querySelectorAll('.snd');
-dots.forEach(d=>{
-  d.addEventListener('click',function(){
-    document.getElementById(sections[+this.dataset.i]).scrollIntoView({behavior:'smooth'});
-  });
-});
+dots.forEach(d=>d.addEventListener('click',function(){
+  document.getElementById(sections[+this.dataset.i]).scrollIntoView({behavior:'smooth'});
+}));
 const sObs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
@@ -760,45 +792,26 @@ const sObs=new IntersectionObserver(entries=>{
       if(dots[i])dots[i].classList.add('active');
     }
   });
-},{threshold:.3});
+},{threshold:.25});
 sections.forEach(id=>{const el=document.getElementById(id);if(el)sObs.observe(el);});
 
 // FADE IN
 const fiObs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');fiObs.unobserve(e.target);}});
-},{threshold:.15});
+},{threshold:.12});
 document.querySelectorAll('.fi').forEach(el=>fiObs.observe(el));
 
 // STAT COUNTERS
 function countUp(el,target,suffix){
-  let start=0,dur=1600,step=16;
-  const inc=target/(dur/step);
-  const t=setInterval(()=>{
-    start=Math.min(start+inc,target);
-    el.textContent=Math.round(start)+suffix;
-    if(start>=target)clearInterval(t);
-  },step);
+  let v=0;const inc=target/80;
+  const t=setInterval(()=>{v=Math.min(v+inc,target);el.textContent=Math.round(v)+suffix;if(v>=target)clearInterval(t);},18);
 }
-const statObs=new IntersectionObserver(entries=>{
+const stObs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
-    if(e.isIntersecting){
-      const el=e.target;
-      countUp(el,+el.dataset.target,el.dataset.suffix||'');
-      statObs.unobserve(el);
-    }
+    if(e.isIntersecting){countUp(e.target,+e.target.dataset.target,e.target.dataset.suffix||'');stObs.unobserve(e.target);}
   });
 },{threshold:.5});
-document.querySelectorAll('.stat-n[data-target]').forEach(el=>statObs.observe(el));
-
-// LOGIC TREE
-function toggleTree(el){
-  const arrow=el.querySelector('.tl-arrow');
-  const children=el.nextElementSibling;
-  if(!children||!children.classList.contains('tc'))return;
-  const isOpen=children.classList.contains('open');
-  children.classList.toggle('open',!isOpen);
-  if(arrow)arrow.classList.toggle('open',!isOpen);
-}
+document.querySelectorAll('.stat-n[data-target]').forEach(el=>stObs.observe(el));
 
 // STEPPER
 function setStep(i,btn){
@@ -828,10 +841,10 @@ function testAnswer(ans){
 
 // SOURCES
 function toggleSources(){
-  const list=document.getElementById('src-list');
-  const arrow=document.getElementById('src-arrow');
-  const open=list.classList.toggle('open');
-  arrow.textContent=open?'▼':'▶';
+  const l=document.getElementById('src-list');
+  const a=document.getElementById('src-arrow');
+  const o=l.classList.toggle('open');
+  a.textContent=o?'▼':'▶';
 }
 </script>
 </body>
