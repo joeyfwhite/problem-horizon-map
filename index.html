@@ -170,13 +170,15 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
 .warn-label{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--wkd);margin-bottom:8px;}
 .ptest{background:#fff;border:1px solid var(--border);border-radius:12px;padding:28px;margin:36px 0;box-shadow:0 2px 12px rgba(0,0,0,.05);}
 .ptest-q{font-family:'Playfair Display',serif;font-style:italic;font-size:1.12rem;border-left:3px solid var(--wkd);padding-left:18px;margin:20px 0;line-height:1.5;}
-.ptest-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
-.pa{padding:14px;border-radius:9px;border:1px solid var(--border);cursor:pointer;font-size:.88rem;text-align:center;transition:all .2s;font-family:'Inter',sans-serif;background:transparent;color:var(--text);}
+.ptest-btns{display:grid;grid-template-columns:1fr;gap:10px;margin-top:16px;}
+.pa{padding:14px 16px;border-radius:9px;border:1px solid var(--border);cursor:pointer;font-size:.88rem;text-align:left;transition:all .2s;font-family:'Inter',sans-serif;background:transparent;color:var(--text);}
 .pa.yes:hover{background:rgba(51,224,154,.1);border-color:var(--comp);color:var(--comp);}
 .pa.no:hover{background:rgba(165,112,255,.1);border-color:var(--wkd);color:var(--wkd);}
-.ptest-result{margin-top:16px;padding:14px 18px;border-radius:9px;font-size:.88rem;display:none;animation:anim-fi .3s ease;}
+.pa.loop:hover{background:rgba(37,99,235,.1);border-color:var(--cpx);color:var(--cpx);}
+.ptest-result{margin-top:16px;padding:14px 18px;border-radius:9px;font-size:.88rem;display:none;animation:anim-fi .3s ease;line-height:1.6;}
 .ptest-result.proceed{background:rgba(51,224,154,.09);border:1px solid rgba(51,224,154,.3);color:var(--comp);}
 .ptest-result.stop{background:rgba(165,112,255,.09);border:1px solid rgba(165,112,255,.3);color:var(--wkd);}
+.ptest-result.loop{background:rgba(37,99,235,.09);border:1px solid rgba(37,99,235,.3);color:var(--cpx);}
 
 /* CLOSE */
 .close-sec{padding:130px 28px;max-width:740px;margin:0 auto;text-align:center;position:relative;z-index:1;}
@@ -808,14 +810,16 @@ Question: [what needs resolution, and what a good answer looks like]" onclick="c
 
     <div class="ptest fi fi-d1">
       <h3>A Practical Test</h3>
-      <p style="font-size:.9rem;color:var(--muted);">Before engaging AI on any high-stakes problem, ask yourself:</p>
+      <p style="font-size:.9rem;color:var(--muted);">Before engaging AI on any high-stakes problem, ask yourself. Then pick the option that best describes where you are.</p>
       <div class="ptest-q">If AI gave me three confident, well-structured answers to this question, would I be able to evaluate which one is right?</div>
       <div class="ptest-btns">
-        <button class="pa yes" onclick="testAnswer('yes')">✓ Yes, I can evaluate the answer</button>
-        <button class="pa no" onclick="testAnswer('no')">✗ No, it depends on judgment I haven't made</button>
+        <button class="pa yes" onclick="testAnswer('yes')">✓ Yes — I know what a good answer looks like</button>
+        <button class="pa no" onclick="testAnswer('wkd')">✗ No — the values, stakeholders, or frame haven't been established yet</button>
+        <button class="pa loop" onclick="testAnswer('loop')">◎ No — I'm in exploration mode, the definition is still emerging</button>
       </div>
-      <div class="ptest-result proceed" id="test-yes">You're likely in the Inner Ring or Core. Proceed. Supply the full Situation and Question, then let AI execute.</div>
-      <div class="ptest-result stop" id="test-no">You're at the fringe. If the values, stakeholders, or ethical constraints haven't been resolved yet, do the human work first. Establish the frame, build the first branches, then bring AI in at the leaf nodes. If you're in exploration mode and the definition is still emerging, engage AI as a thinking partner: ask what you're missing, not what the answer is.</div>
+      <div class="ptest-result proceed" id="test-yes">You're in the Inner Ring or Core. Apply the Gravity Effect: supply the full Situation and Question, then let AI execute.</div>
+      <div class="ptest-result stop" id="test-wkd">You're in the Wilderness. Do the human work first. Clarify whose values apply, what constraints are non-negotiable, and what direction you're heading. Then build the first branches of the tree and bring AI in at the leaf nodes.</div>
+      <div class="ptest-result loop" id="test-loop">You're in a learning loop. Don't ask AI for answers yet. Ask what you're missing, what assumptions are embedded in your framing, or what a rigorous skeptic would say. The goal right now is a clearer question, not a deliverable.</div>
     </div>
   </div>
 </div>
@@ -995,9 +999,12 @@ function moveExample(dir){
 
 // PRACTICAL TEST
 function testAnswer(ans){
-  document.getElementById('test-yes').style.display='none';
-  document.getElementById('test-no').style.display='none';
-  document.getElementById('test-'+ans).style.display='block';
+  ['yes','wkd','loop'].forEach(id=>{
+    const el=document.getElementById('test-'+id);
+    if(el)el.style.display='none';
+  });
+  const target=document.getElementById('test-'+ans);
+  if(target)target.style.display='block';
 }
 
 // PROGRESS BAR
