@@ -193,6 +193,36 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
 .src-list li{font-size:.77rem;color:var(--dim);margin-bottom:7px;list-style:none;padding-left:14px;position:relative;}
 .src-list li::before{content:'—';position:absolute;left:0;}
 
+/* PROGRESS BAR */
+#pbar{position:fixed;top:0;left:0;height:3px;width:0;z-index:9999;background:linear-gradient(90deg,#7C3AED,#2563EB,#0D9668,#B87D00);transition:width .1s linear;pointer-events:none;}
+
+/* COPY BUTTON */
+.copy-template{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 20px;font-size:.87rem;line-height:1.85;color:var(--muted);margin:16px 0 8px;}
+.ct-line{margin-bottom:2px;}
+.copy-btn{display:inline-flex;align-items:center;gap:5px;background:transparent;border:1px solid var(--border);border-radius:6px;padding:5px 13px;font-size:.72rem;color:var(--dim);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;letter-spacing:.03em;}
+.copy-btn:hover{background:var(--text);color:#fff;border-color:var(--text);}
+.copy-btn.copied{color:var(--comp);border-color:var(--comp);background:rgba(13,150,104,.06);}
+
+/* SELF-ASSESSMENT QUIZ */
+.quiz-sec{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px;margin:36px 0;}
+.quiz-sec>p{font-size:.9rem;color:var(--muted);margin-bottom:24px;}
+.qq{animation:anim-fi .3s ease;}
+.qq.hidden{display:none;}
+.qq-num{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:10px;}
+.qq-txt{font-size:1rem;font-weight:500;color:var(--text);margin-bottom:16px;line-height:1.5;}
+.qq-opts{display:flex;flex-direction:column;gap:8px;}
+.qopt{background:transparent;border:1px solid var(--border);border-radius:9px;padding:11px 16px;font-size:.88rem;text-align:left;cursor:pointer;font-family:'Inter',sans-serif;color:var(--text);transition:all .18s;}
+.qopt:hover{border-color:var(--cpx);background:rgba(37,99,235,.05);color:var(--cpx);}
+.qopt.sel{border-color:var(--cpx);background:rgba(37,99,235,.08);color:var(--cpx);font-weight:500;}
+.qr-wrap{border-radius:10px;border:1.5px solid;padding:20px;display:flex;align-items:flex-start;gap:14px;margin-top:20px;}
+.qr-icon{font-size:1.3rem;line-height:1;flex-shrink:0;margin-top:2px;}
+.qr-zone-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px;}
+.qr-name{font-size:1.05rem;font-weight:600;margin-bottom:8px;}
+.qr-next{font-size:.87rem;color:var(--muted);line-height:1.6;}
+#qresult.hidden{display:none;}
+.quiz-reset{margin-top:14px;background:none;border:none;color:var(--dim);font-size:.82rem;cursor:pointer;font-family:'Inter',sans-serif;text-decoration:underline;padding:0;display:none;}
+.quiz-reset.vis{display:inline;}
+
 /* MOBILE LOGIC TREE */
 .vt-mobile{display:none;padding:4px 0;}
 .vtm-node{border-radius:8px;padding:10px 12px;margin-bottom:6px;}
@@ -213,6 +243,7 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
 </head>
 <body>
 
+<div id="pbar"></div>
 <div id="stars"></div>
 
 <!-- HERO -->
@@ -264,9 +295,6 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
       <text x="250" y="170" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="600" letter-spacing="1.5" fill="rgba(255,255,255,.92)">COMPLICATED</text>
       <text x="250" y="107" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="600" letter-spacing="1.5" fill="rgba(255,255,255,.92)">COMPLEX</text>
       <text x="250" y="40" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="600" letter-spacing="1.5" fill="rgba(255,255,255,.92)">WICKED · CHAOTIC</text>
-      <text x="46" y="260" font-family="Inter,sans-serif" font-size="8" letter-spacing="1" fill="rgba(255,255,255,.72)" transform="rotate(-90,46,260)">THE WILDERNESS</text>
-      <text x="454" y="260" font-family="Inter,sans-serif" font-size="8" letter-spacing="1" fill="rgba(255,255,255,.72)" transform="rotate(90,454,260)">WILDERNESS GRAVITY</text>
-      <text x="250" y="458" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" letter-spacing="1.5" fill="rgba(255,255,255,.6)" font-style="italic">THE LEARNING LOOP</text>
     </svg>
   </div>
 
@@ -312,7 +340,7 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
     <div class="rcard rw">
       <div class="rcard-tag">The Fringe — Wicked</div>
       <h3>The Wilderness</h3>
-      <p>Problems that resist definition entirely. Climate. Culture. Ethics. Strategy. Human judgment must establish the frame before AI can help at all.</p>
+      <p>Problems that resist definition entirely. Climate. Culture. Ethics. Strategy. Human judgment must establish the frame before AI can execute. For exploratory problems, AI can still contribute as a thinking partner.</p>
     </div>
   </div>
 
@@ -325,6 +353,46 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
     <p>AI has made the cost of operating from the outer rings immediate and visible. It has turned problem definition from a soft skill into infrastructure.</p>
     <p>One caveat worth naming upfront: for software development specifically, agentic tools like Codex and Claude Code already compress much of this work. They decompose tasks, ask clarifying questions, and iterate toward a deliverable because code has a built-in truth test. It either runs or it does not.</p>
     <p>Knowledge work is different. Strategy, analysis, research, and diagnosis do not resolve into a passing test suite. The process of exploration is itself valuable, and problem definitions shift as understanding grows. This article is written for that territory: managers, analysts, and knowledge workers navigating problems where the map, not the model, is the limiting factor. <strong>The rest of this article is about how to move inward.</strong></p>
+  </div>
+
+  <hr>
+
+  <div class="quiz-sec fi">
+    <h3>Where does your current problem sit?</h3>
+    <p>Think of a specific problem you're working on right now. Answer three questions to place it on the map.</p>
+
+    <div class="qq" id="qq1">
+      <div class="qq-num">Question 1 of 3</div>
+      <div class="qq-txt">Can you state what success looks like in a single, testable sentence?</div>
+      <div class="qq-opts">
+        <button class="qopt" onclick="quizAns(1,2,this)">Yes, I could write it right now</button>
+        <button class="qopt" onclick="quizAns(1,1,this)">Somewhat, I have a rough sense</button>
+        <button class="qopt" onclick="quizAns(1,0,this)">Not yet, it depends on factors I haven't resolved</button>
+      </div>
+    </div>
+
+    <div class="qq hidden" id="qq2">
+      <div class="qq-num">Question 2 of 3</div>
+      <div class="qq-txt">Would two domain experts broadly agree on what a good answer looks like?</div>
+      <div class="qq-opts">
+        <button class="qopt" onclick="quizAns(2,2,this)">Yes, it's fairly objective</button>
+        <button class="qopt" onclick="quizAns(2,1,this)">Partially, some judgment involved</button>
+        <button class="qopt" onclick="quizAns(2,0,this)">No, it depends on values or priorities that haven't been set</button>
+      </div>
+    </div>
+
+    <div class="qq hidden" id="qq3">
+      <div class="qq-num">Question 3 of 3</div>
+      <div class="qq-txt">Can you specify what data or information AI would need to help?</div>
+      <div class="qq-opts">
+        <button class="qopt" onclick="quizAns(3,2,this)">Yes, I know the inputs</button>
+        <button class="qopt" onclick="quizAns(3,1,this)">Partially, some inputs are clear</button>
+        <button class="qopt" onclick="quizAns(3,0,this)">Not yet, I'd need to figure that out first</button>
+      </div>
+    </div>
+
+    <div id="qresult" class="hidden"></div>
+    <button class="quiz-reset" id="qreset" onclick="resetQuiz()">Try another problem →</button>
   </div>
 </section>
 
@@ -360,6 +428,17 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
 
   <div class="fi">
     <p>Compare that to what most people actually type: <em style="color:var(--muted)">"Our churn is up, help me figure out what to do."</em> Same underlying problem. Completely different starting position.</p>
+  </div>
+
+  <div class="fi">
+    <div class="copy-template">
+      <div class="ct-line"><strong>Situation:</strong> [stable context — what is true about our world right now]</div>
+      <div class="ct-line"><strong>Complication:</strong> [what changed, or what gap now exists]</div>
+      <div class="ct-line"><strong>Question:</strong> [what needs resolution, and what a good answer looks like]</div>
+    </div>
+    <button class="copy-btn" data-text="Situation: [stable context — what is true about our world right now]
+Complication: [what changed, or what gap now exists]
+Question: [what needs resolution, and what a good answer looks like]" onclick="copyTpl(this)">⧉ Copy SCQ template</button>
   </div>
 
   <hr>
@@ -608,7 +687,7 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
 <section class="sec" id="s4">
   <div class="fi"><p class="eyebrow e-core">Section 4</p></div>
   <div class="fi fi-d1"><h2>The Gravity Effect</h2></div>
-  <div class="fi fi-d2"><p>The Horizon Map is diagnostic. It tells you where a problem lives. The question left open is: <em>how do you actually move it?</em> Five steps, all taken before you open the chat window.</p></div>
+  <div class="fi fi-d2"><p>The Horizon Map is diagnostic. It tells you where a problem lives. The question left open is: <em>how do you actually move it?</em> Five steps, all taken before you open the chat window. For exploratory problems, these steps are iterative rather than sequential. You may pass through them more than once as the problem clarifies.</p></div>
 
   <div class="fi fi-d3">
     <div class="step-tabs">
@@ -630,7 +709,7 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
     </div>
     <div class="step-body" id="step-1">
       <h3>Separate — Situation from Complication</h3>
-      <p>Most people conflate these. They state the Complication — what's wrong — without establishing the Situation — the world as it is.</p>
+      <p>Most people conflate these. They state the Complication (what's wrong) without establishing the Situation (the world as it is).</p>
       <div class="fq">What would someone need to know to understand why this is a problem right now?</div>
       <p style="font-size:.9rem;color:var(--muted);">Write it down explicitly. Not in your head. This is the context layer: it tells AI whether the car is on the highway or in the mud. If you can't write the Situation in 2–3 sentences, the problem isn't ready yet.</p>
     </div>
@@ -643,6 +722,7 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
         <li>How you'd know if the answer is correct</li>
       </ul>
       <div class="fq">Given [Situation], find/analyze/summarize [specific thing] so that I can [clear outcome].</div>
+      <button class="copy-btn" style="margin-bottom:12px;" data-text="Given [Situation], find/analyze/summarize [specific thing] so that I can [clear outcome]." onclick="copyTpl(this)">⧉ Copy prompt</button>
       <p style="font-size:.9rem;color:var(--muted);">If you can't write that sentence, the node needs another branch.</p>
     </div>
     <div class="step-body" id="step-3">
@@ -735,7 +815,7 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
         <button class="pa no" onclick="testAnswer('no')">✗ No, it depends on judgment I haven't made</button>
       </div>
       <div class="ptest-result proceed" id="test-yes">You're likely in the Inner Ring or Core. Proceed. Supply the full Situation and Question, then let AI execute.</div>
-      <div class="ptest-result stop" id="test-no">You're at the fringe. Do the human work first. Establish the frame. Build the first branches of the tree. Then bring AI in at the leaf nodes.</div>
+      <div class="ptest-result stop" id="test-no">You're at the fringe. If the values, stakeholders, or ethical constraints haven't been resolved yet, do the human work first. Establish the frame, build the first branches, then bring AI in at the leaf nodes. If you're in exploration mode and the definition is still emerging, engage AI as a thinking partner: ask what you're missing, not what the answer is.</div>
     </div>
   </div>
 </div>
@@ -918,6 +998,70 @@ function testAnswer(ans){
   document.getElementById('test-yes').style.display='none';
   document.getElementById('test-no').style.display='none';
   document.getElementById('test-'+ans).style.display='block';
+}
+
+// PROGRESS BAR
+(function(){
+  const bar=document.getElementById('pbar');
+  window.addEventListener('scroll',function(){
+    const pct=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100;
+    bar.style.width=Math.min(pct,100)+'%';
+  },{passive:true});
+})();
+
+// COPY TEMPLATE
+function copyTpl(btn){
+  const text=btn.dataset.text;
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig=btn.textContent;
+    btn.textContent='✓ Copied';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied');},2000);
+  });
+}
+
+// SELF-ASSESSMENT QUIZ
+const qScores=[0,0,0];
+function quizAns(q,score,btn){
+  qScores[q-1]=score;
+  document.querySelectorAll('#qq'+q+' .qopt').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  setTimeout(()=>{
+    if(q<3){
+      document.getElementById('qq'+q).classList.add('hidden');
+      document.getElementById('qq'+(q+1)).classList.remove('hidden');
+    } else { showQuizResult(); }
+  },350);
+}
+function showQuizResult(){
+  const total=qScores.reduce((a,b)=>a+b,0);
+  let zone,col,icon,next;
+  if(total>=5){
+    zone='The Core';col='#B87D00';icon='✓';
+    next='Your problem is ready. Apply Steps 3–5 of the Gravity Effect: decompose to leaf nodes, load full context, and prompt with precision.';
+  } else if(total>=3){
+    zone='Complicated';col='#0D9668';icon='◎';
+    next='One more round of decomposition. Work through Steps 1–3 of the Gravity Effect to break this into sub-questions AI can handle independently.';
+  } else if(total>=1){
+    zone='Complex';col='#2563EB';icon='◈';
+    next='Start with Steps 1–2 of the Gravity Effect. Separate what you know (Situation) from what changed (Complication) before you can decompose further.';
+  } else {
+    zone='The Wilderness';col='#7C3AED';icon='⚠';
+    next='Establish the frame first. Clarify whose values apply, what constraints are non-negotiable, and what a good outcome looks like. Then return to the map.';
+  }
+  document.getElementById('qresult').innerHTML=`<div class="qr-wrap" style="border-color:${col};background:${col}12;"><div class="qr-icon" style="color:${col}">${icon}</div><div><div class="qr-zone-label" style="color:${col}">Your problem is in</div><div class="qr-name" style="color:${col}">${zone}</div><div class="qr-next">${next}</div></div></div>`;
+  document.getElementById('qresult').classList.remove('hidden');
+  document.getElementById('qreset').classList.add('vis');
+}
+function resetQuiz(){
+  qScores.fill(0);
+  for(let i=1;i<=3;i++){
+    const q=document.getElementById('qq'+i);
+    q.querySelectorAll('.qopt').forEach(b=>b.classList.remove('sel'));
+    if(i===1)q.classList.remove('hidden');else q.classList.add('hidden');
+  }
+  document.getElementById('qresult').classList.add('hidden');
+  document.getElementById('qreset').classList.remove('vis');
 }
 
 // SOURCES
