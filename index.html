@@ -193,7 +193,22 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
 .src-list li{font-size:.77rem;color:var(--dim);margin-bottom:7px;list-style:none;padding-left:14px;position:relative;}
 .src-list li::before{content:'—';position:absolute;left:0;}
 
-@media(max-width:620px){.ring-grid,.infra{grid-template-columns:1fr;}.ptest-btns{grid-template-columns:1fr;}.sidenav{display:none;}.stats-grid{grid-template-columns:1fr 1fr;}}
+/* MOBILE LOGIC TREE */
+.vt-mobile{display:none;padding:4px 0;}
+.vtm-node{border-radius:8px;padding:10px 12px;margin-bottom:6px;}
+.vtm-wkd-n{background:rgba(165,112,255,.1);border:1.5px solid rgba(165,112,255,.35);}
+.vtm-cpx-n{background:rgba(91,170,255,.1);border:1.5px solid rgba(91,170,255,.35);}
+.vtm-comp-n{background:rgba(51,224,154,.1);border:1.5px solid rgba(51,224,154,.35);}
+.vtm-core-n{background:rgba(255,200,55,.13);border:1.5px solid rgba(255,200,55,.5);}
+.vtm-zone{font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;display:block;margin-bottom:3px;}
+.vtm-wkd-n .vtm-zone{color:#A570FF;}.vtm-cpx-n .vtm-zone{color:#5BAAFF;}.vtm-comp-n .vtm-zone{color:#33E09A;}.vtm-core-n .vtm-zone{color:#8A5C00;}
+.vtm-txt{font-size:13px;color:#111827;display:block;line-height:1.4;}
+.vtm-core-n .vtm-txt{color:#8A5C00;font-weight:500;}
+.vtm-l1{margin-left:16px;padding-left:14px;border-left:1.5px solid rgba(91,170,255,.3);}
+.vtm-l2{margin-left:12px;padding-left:12px;border-left:1.5px solid rgba(51,224,154,.3);}
+.vtm-l3{margin-left:12px;padding-left:12px;border-left:1.5px solid rgba(255,200,55,.4);}
+
+@media(max-width:620px){.ring-grid,.infra{grid-template-columns:1fr;}.ptest-btns{grid-template-columns:1fr;}.sidenav{display:none;}.stats-grid{grid-template-columns:1fr 1fr;}#vtree{display:none;}.vt-mobile{display:block;}}
 </style>
 </head>
 <body>
@@ -231,7 +246,7 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
       </defs>
 
       <circle cx="250" cy="250" r="238" fill="url(#gWkd)" stroke="#A570FF" stroke-width="1.5" class="map-ring" data-zone="wicked"
-        data-tip="<strong style='color:#A570FF'>The Wilderness</strong>Wicked &amp; Chaotic problems resist definition. Solutions generate new problems. Human judgment must come first."/>
+        data-tip="<strong style='color:#A570FF'>The Wilderness</strong>Problems that resist clean definition. Every attempt to define them shifts the frame. Human judgment establishes the frame before any tool can help. For exploratory and learning-loop problems, AI works best as a thinking partner, sharpening the question rather than answering it."/>
       <circle cx="250" cy="250" r="174" fill="url(#gCpx)" stroke="#5BAAFF" stroke-width="1.5" class="map-ring" data-zone="complex"
         data-tip="<strong style='color:#5BAAFF'>Outer Ring — Complex</strong>Multi-variable, adaptive problems. AI helps at sub-problem level but the parent problem resists clean definition."/>
       <circle cx="250" cy="250" r="112" fill="url(#gComp)" stroke="#33E09A" stroke-width="1.5" class="map-ring" data-zone="complicated"
@@ -245,12 +260,13 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
       </circle>
 
       <text x="250" y="244" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#FFC837">AI CORE</text>
-      <text x="250" y="260" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" letter-spacing="1.5" fill="rgba(255,200,55,.6)">STABLE</text>
-      <text x="250" y="170" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.5" fill="rgba(51,224,154,.75)">COMPLICATED</text>
-      <text x="250" y="107" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.5" fill="rgba(91,170,255,.75)">COMPLEX</text>
-      <text x="250" y="40" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.5" fill="rgba(165,112,255,.75)">WICKED · CHAOTIC</text>
-      <text x="46" y="260" font-family="Inter,sans-serif" font-size="8" letter-spacing="1" fill="rgba(165,112,255,.5)" transform="rotate(-90,46,260)">THE WILDERNESS</text>
-      <text x="454" y="260" font-family="Inter,sans-serif" font-size="8" letter-spacing="1" fill="rgba(165,112,255,.5)" transform="rotate(90,454,260)">WILDERNESS GRAVITY</text>
+      <text x="250" y="260" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" letter-spacing="1.5" fill="rgba(255,255,255,.7)">STABLE</text>
+      <text x="250" y="170" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="600" letter-spacing="1.5" fill="rgba(255,255,255,.92)">COMPLICATED</text>
+      <text x="250" y="107" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="600" letter-spacing="1.5" fill="rgba(255,255,255,.92)">COMPLEX</text>
+      <text x="250" y="40" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="600" letter-spacing="1.5" fill="rgba(255,255,255,.92)">WICKED · CHAOTIC</text>
+      <text x="46" y="260" font-family="Inter,sans-serif" font-size="8" letter-spacing="1" fill="rgba(255,255,255,.72)" transform="rotate(-90,46,260)">THE WILDERNESS</text>
+      <text x="454" y="260" font-family="Inter,sans-serif" font-size="8" letter-spacing="1" fill="rgba(255,255,255,.72)" transform="rotate(90,454,260)">WILDERNESS GRAVITY</text>
+      <text x="250" y="458" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" letter-spacing="1.5" fill="rgba(255,255,255,.6)" font-style="italic">THE LEARNING LOOP</text>
     </svg>
   </div>
 
@@ -450,6 +466,59 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
 
     <!-- Node tooltip -->
     <div id="vtip" style="display:none;position:absolute;background:#fff;border:1px solid #E5E7EB;border-radius:9px;padding:11px 14px;font-size:.79rem;max-width:220px;line-height:1.5;box-shadow:0 8px 24px rgba(0,0,0,.11);pointer-events:none;z-index:20;color:#6B7280;"></div>
+
+    <!-- MOBILE TREE: shown on small screens instead of SVG -->
+    <div class="vt-mobile">
+      <div class="vtm-node vtm-wkd-n">
+        <span class="vtm-zone">Wicked</span>
+        <span class="vtm-txt">"Company isn't growing fast enough"</span>
+      </div>
+      <div class="vtm-l1">
+        <div class="vtm-node vtm-cpx-n">
+          <span class="vtm-zone">Complex</span>
+          <span class="vtm-txt">Why are we losing customers?</span>
+        </div>
+        <div class="vtm-l2">
+          <div class="vtm-node vtm-comp-n">
+            <span class="vtm-zone">Complicated</span>
+            <span class="vtm-txt">Churn rate by segment?</span>
+          </div>
+          <div class="vtm-l3">
+            <div class="vtm-node vtm-core-n">
+              <span class="vtm-zone">Core ✓</span>
+              <span class="vtm-txt">Analyze churn data by cohort &amp; value</span>
+            </div>
+          </div>
+          <div class="vtm-node vtm-comp-n">
+            <span class="vtm-zone">Complicated</span>
+            <span class="vtm-txt">Exit survey themes?</span>
+          </div>
+          <div class="vtm-l3">
+            <div class="vtm-node vtm-core-n">
+              <span class="vtm-zone">Core ✓</span>
+              <span class="vtm-txt">Summarize exit survey themes &amp; frequency</span>
+            </div>
+          </div>
+        </div>
+        <div class="vtm-node vtm-cpx-n">
+          <span class="vtm-zone">Complex</span>
+          <span class="vtm-txt">Why aren't we acquiring fast enough?</span>
+        </div>
+        <div class="vtm-l2">
+          <div class="vtm-node vtm-comp-n">
+            <span class="vtm-zone">Complicated</span>
+            <span class="vtm-txt">Where does the funnel break?</span>
+          </div>
+          <div class="vtm-l3">
+            <div class="vtm-node vtm-core-n">
+              <span class="vtm-zone">Core ✓</span>
+              <span class="vtm-txt">Map funnel conversion by stage &amp; source</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:9px;text-align:center;color:#9CA3AF;letter-spacing:.5px;margin-top:8px;">AI executes at the leaves</p>
+    </div>
 
     <div class="vtree-legend">
       <div class="vleg"><div class="vleg-dot" style="background:#A570FF;"></div>Wicked — resists definition</div>
