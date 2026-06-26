@@ -115,6 +115,7 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
 .vtree-legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:18px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:10px;}
 .vleg{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--muted);}
 .vleg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+.vleg-dot-dash{width:10px;height:10px;border-radius:3px;flex-shrink:0;border:1.5px dashed #A570FF;background:transparent;}
 
 /* STATS */
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:36px 0;}
@@ -279,7 +280,7 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
       </defs>
 
       <circle cx="250" cy="250" r="238" fill="url(#gWkd)" stroke="#A570FF" stroke-width="1.5" class="map-ring" data-zone="wicked"
-        data-tip="<strong style='color:#A570FF'>The Wilderness</strong>Problems that resist clean definition. Every attempt to define them shifts the frame. Human judgment establishes the frame before any tool can help. For exploratory and learning-loop problems, AI works best as a thinking partner, sharpening the question rather than answering it."/>
+        data-tip="<strong style='color:#A570FF'>The Wilderness</strong>Contains two modes: <strong style='color:#A570FF'>Wicked</strong> (permanently resistant — human judgment must establish the frame before any tool can help) and <strong style='color:#A570FF'>◎ Learning Loop</strong> (temporarily undefined — AI works best as a thinking partner here, sharpening the question rather than answering it)."/>
       <circle cx="250" cy="250" r="174" fill="url(#gCpx)" stroke="#5BAAFF" stroke-width="1.5" class="map-ring" data-zone="complex"
         data-tip="<strong style='color:#5BAAFF'>Outer Ring — Complex</strong>Multi-variable, adaptive problems. AI helps at sub-problem level but the parent problem resists clean definition."/>
       <circle cx="250" cy="250" r="112" fill="url(#gComp)" stroke="#33E09A" stroke-width="1.5" class="map-ring" data-zone="complicated"
@@ -355,6 +356,7 @@ hr{border:none;border-top:1px solid var(--border);margin:40px 0;}
     <p>AI has made the cost of operating from the outer rings immediate and visible. It has turned problem definition from a soft skill into infrastructure.</p>
     <p>One caveat worth naming upfront: for software development specifically, agentic tools like Codex and Claude Code already compress much of this work. They decompose tasks, ask clarifying questions, and iterate toward a deliverable because code has a built-in truth test. It either runs or it does not.</p>
     <p>Knowledge work is different. Strategy, analysis, research, and diagnosis do not resolve into a passing test suite. The process of exploration is itself valuable, and problem definitions shift as understanding grows. This article is written for that territory: managers, analysts, and knowledge workers navigating problems where the map, not the model, is the limiting factor. <strong>The rest of this article is about how to move inward.</strong></p>
+    <p>One clarification worth making before we proceed: the zones describe your current relationship to the problem, not a fixed property of the problem itself. The same challenge can sit in different zones for different people and move inward as understanding grows.</p>
   </div>
 
   <hr>
@@ -606,6 +608,7 @@ Question: [what needs resolution, and what a good answer looks like]" onclick="c
       <div class="vleg"><div class="vleg-dot" style="background:#5BAAFF;"></div>Complex — needs decomposition</div>
       <div class="vleg"><div class="vleg-dot" style="background:#33E09A;"></div>Complicated — structured</div>
       <div class="vleg"><div class="vleg-dot" style="background:#FFC837;"></div>Core — AI-ready</div>
+      <div class="vleg"><div class="vleg-dot-dash"></div>◎ Learning Loop mode — within Complex/Wicked territory; definition emerges through exploration</div>
     </div>
   </div>
 
@@ -726,6 +729,7 @@ Question: [what needs resolution, and what a good answer looks like]" onclick="c
       <div class="fq">Given [Situation], find/analyze/summarize [specific thing] so that I can [clear outcome].</div>
       <button class="copy-btn" style="margin-bottom:12px;" data-text="Given [Situation], find/analyze/summarize [specific thing] so that I can [clear outcome]." onclick="copyTpl(this)">⧉ Copy prompt</button>
       <p style="font-size:.9rem;color:var(--muted);">If you can't write that sentence, the node needs another branch.</p>
+      <p style="font-size:.9rem;color:var(--muted);">If identifying the right sub-questions is itself the challenge, you may be in a learning loop. In that case, bring AI in at this step. Not to answer the problem, but to help surface the decomposition. Ask it what questions would need to be answered to resolve the parent problem, then evaluate whether those sub-questions hold up. Treat the output as a hypothesis to pressure-test, not a structure to trust.</p>
     </div>
     <div class="step-body" id="step-3">
       <h3>Load — Supply the Full Context</h3>
@@ -834,7 +838,7 @@ Question: [what needs resolution, and what a good answer looks like]" onclick="c
     <p>The organizations pulling ahead are not the ones with access to better models. They are the ones that have built the discipline and the infrastructure to define problems before they reach the model.</p>
     <p>This is not a technical skill. It is a thinking skill. What's changed is that AI has made it the entry requirement rather than the differentiator.</p>
   </div>
-  <div class="close-cta fi fi-d2">"Draw the tree before you open the chat window.<br>Everything else follows."</div>
+  <div class="close-cta fi fi-d2">"Know where your problem sits before you open the chat window.<br>Everything else follows."</div>
 </section>
 
 <!-- SOURCES -->
