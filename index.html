@@ -882,6 +882,7 @@ Question: [what needs resolution, and what a good answer looks like]" onclick="c
   const svg=document.getElementById('horizon-svg');
   const tip=document.getElementById('map-tip');
   const wrap=document.querySelector('.map-wrap');
+  const isTouch=window.matchMedia('(hover:none)').matches;
   svg.querySelectorAll('.map-ring').forEach(r=>{
     r.style.cursor='pointer';r.style.transition='opacity .25s';
     r.addEventListener('mouseenter',function(){
@@ -892,17 +893,38 @@ Question: [what needs resolution, and what a good answer looks like]" onclick="c
       const rect=wrap.getBoundingClientRect();
       let x=e.clientX-rect.left+16,y=e.clientY-rect.top-70;
       if(x+215>rect.width)x=e.clientX-rect.left-230;
+      if(x<8)x=8;
+      if(y<0)y=10;
       tip.style.left=x+'px';tip.style.top=y+'px';
     });
     r.addEventListener('mouseleave',function(){
       tip.style.opacity='0';
       svg.querySelectorAll('.map-ring').forEach(o=>o.style.opacity='1');
     });
-    r.addEventListener('click',function(){
-      const m={core:'#s2',complicated:'#s2',complex:'#s1',wicked:'#s5'};
-      if(m[this.dataset.zone])document.querySelector(m[this.dataset.zone]).scrollIntoView({behavior:'smooth'});
+    r.addEventListener('click',function(e){
+      if(isTouch){
+        const rect=wrap.getBoundingClientRect();
+        let x=e.clientX-rect.left-105;
+        let y=e.clientY-rect.top-140;
+        x=Math.max(8,Math.min(x,rect.width-220));
+        if(y<8)y=e.clientY-rect.top+20;
+        tip.innerHTML=this.dataset.tip;
+        tip.style.left=x+'px';tip.style.top=y+'px';tip.style.opacity='1';
+        svg.querySelectorAll('.map-ring').forEach(o=>{if(o!==this)o.style.opacity='.45';});
+      } else {
+        const m={core:'#s2',complicated:'#s2',complex:'#s1',wicked:'#s5'};
+        if(m[this.dataset.zone])document.querySelector(m[this.dataset.zone]).scrollIntoView({behavior:'smooth'});
+      }
     });
   });
+  if(isTouch){
+    document.addEventListener('click',function(e){
+      if(!svg.contains(e.target)){
+        tip.style.opacity='0';
+        svg.querySelectorAll('.map-ring').forEach(o=>o.style.opacity='1');
+      }
+    });
+  }
 })();
 
 // VISUAL TREE TOOLTIPS & HIGHLIGHT
